@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="authority">
+
+	<select id="authority.getAuthorityList" resultType="HashMap">
+		SELECT AUTHORITY_CD, AUTHORITY_NM, IS_USE, NOTE, CAST(CREATED_DATE AS VARCHAR(10)) AS CREATED_DATE
+		     , CAST(UPDATED_DATE AS VARCHAR(10)) AS UPDATED_DATE, UPDATED_ID, UPDATED_IP
+		  FROM BM_AUTHORITY
+		<where> 
+			<if test="AUTHORITY_CD != null and AUTHORITY_CD != ''">
+				 AND AUTHORITY_CD = #{AUTHORITY_CD}
+			</if>
+			<if test="AUTHORITY_NM != null and AUTHORITY_NM != ''">
+				 AND AUTHORITY_NM LIKE '%' || #{AUTHORITY_NM} || '%'
+			</if>
+		</where>
+	</select>
+
+	<insert id="authority.insertAuthority">
+		INSERT INTO BM_AUTHORITY(AUTHORITY_CD, AUTHORITY_NM, IS_USE, NOTE, CREATED_DATE, UPDATED_DATE
+				  , UPDATED_ID, UPDATED_IP)
+			 VALUES (#{AUTHORITY_CD}, #{AUTHORITY_NM}, #{IS_USE}, #{NOTE},
+					 #{CREATED_DATE}, #{UPDATED_DATE}, #{UPDATED_ID}, #{UPDATED_IP})
+	</insert>
+	
+	<update id="authority.updateAuthority">
+		UPDATE BM_AUTHORITY 
+		   SET AUTHORITY_NM = #{AUTHORITY_NM}, IS_USE = #{IS_USE}, NOTE = #{NOTE}
+			 , UPDATED_DATE = #{UPDATED_DATE}, UPDATED_ID = #{UPDATED_ID}, UPDATED_IP = #{UPDATED_IP} 
+		 WHERE AUTHORITY_CD = #{AUTHORITY_CD}
+	</update>
+	
+	<delete id="authority.deleteAuthority">
+		DELETE FROM BM_AUTHORITY WHERE AUTHORITY_CD = #{AUTHORITY_CD}
+	</delete>
+	
+	<select id="authority.getAuthorityMenuList" resultType="HashMap">
+		SELECT BAM.AUTHORITY_CD, BAM.MENU_CD, BAU.AUTHORITY_NM, BAU.NOTE
+			 , CAST(BAM.CREATED_DATE AS VARCHAR(10)) AS CREATED_DATE, CAST(BAM.UPDATED_DATE AS VARCHAR(10)) AS UPDATED_DATE
+			 , BAM.UPDATED_ID, BAM.UPDATED_IP
+		  FROM BM_AUTHORITY_MENU BAM
+			   INNER JOIN BM_AUTHORITY BAU ON BAM.AUTHORITY_CD = BAU.AUTHORITY_CD
+		<where> 
+			<if test="MENU_CD != null and MENU_CD != ''">
+				 AND BAM.MENU_CD = #{MENU_CD}
+			</if>
+			<if test="AUTHORITY_CD != null and AUTHORITY_CD != ''">
+				 AND BAM.AUTHORITY_CD = #{AUTHORITY_CD}
+			</if>
+			<if test="AUTHORITY_NM != null and AUTHORITY_NM != ''">
+				 AND BAU.AUTHORITY_NM LIKE '%' || #{AUTHORITY_NM} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<insert id="authority.insertAuthorityMenu">
+		INSERT INTO BM_AUTHORITY_MENU(AUTHORITY_CD, MENU_CD, CREATED_DATE, UPDATED_DATE, UPDATED_ID, UPDATED_IP)
+			 VALUES (#{AUTHORITY_CD}, #{MENU_CD}, #{CREATED_DATE}, #{UPDATED_DATE}, #{UPDATED_ID}, #{UPDATED_IP})
+	</insert>
+	
+	<delete id="authority.deleteAuthorityMenu">
+		DELETE FROM BM_AUTHORITY_MENU 
+		<where> 
+			<if test="MENU_CD != null and MENU_CD != ''">
+				 AND MENU_CD = #{MENU_CD}
+			</if>
+			<if test="AUTHORITY_CD != null and AUTHORITY_CD != ''">
+				 AND AUTHORITY_CD = #{AUTHORITY_CD}
+			</if>
+		</where>
+	</delete>
+	
+	<select id="authority.getPersonAuthorityList" resultType="HashMap">
+		SELECT BAM.AUTHORITY_CD, HPB.EMP_CD, HPB.EMP_NM, HPB.ORG_CD, HOB.ORG_NM, HPB.ASSIGNED_TASK
+		  FROM HM_PERSON_BASIC HPB	
+			   INNER JOIN HM_ORGAN_BASIC HOB ON HPB.ORG_CD = HOB.ORG_CD	
+			   INNER JOIN HM_PERSON_AUTHORITY BAM ON HPB.EMP_CD = BAM.EMP_CD
+		<where> 
+			<if test="EMP_CD != null and EMP_CD != ''">
+				 AND BAM.EMP_CD = #{EMP_CD}
+			</if>
+			<if test="AUTHORITY_CD != null and AUTHORITY_CD != ''">
+				 AND BAM.AUTHORITY_CD = #{AUTHORITY_CD}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="authority.insertPersonAuthority">
+		INSERT INTO HM_PERSON_AUTHORITY(EMP_CD, AUTHORITY_CD, CREATED_DATE, UPDATED_DATE, UPDATED_ID, UPDATED_IP)
+			 VALUES (#{EMP_CD}, #{AUTHORITY_CD}, #{CREATED_DATE}, #{UPDATED_DATE}, #{UPDATED_ID}, #{UPDATED_IP})
+	</insert>
+	
+	<delete id="authority.deletePersonAuthority">
+		DELETE FROM HM_PERSON_AUTHORITY 
+		<where>
+			<if test="EMP_CD != null and EMP_CD != ''">
+				 AND EMP_CD = #{EMP_CD}
+			</if>
+			<if test="AUTHORITY_CD != null and AUTHORITY_CD != ''">
+				 AND AUTHORITY_CD = #{AUTHORITY_CD}
+			</if>
+		</where>
+	</delete>
+</mapper>

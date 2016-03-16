@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><?xml-stylesheet href="/prjtm2/cm/css/common.css"" type="text/css"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection>
+				<w2:dataMap attributeMap="" baseNode="map" id="dma_ReqInfo" idAttribute="" keyNode="" style="" valueAttribute="">
+					<w2:keyInfo>
+						<w2:key dataType="text" id="EMP_CD" name="사용자 아이디" />
+						<w2:key dataType="text" id="PASSWORD" name="비밀번호" />
+					</w2:keyInfo>
+				</w2:dataMap>
+			</w2:dataCollection>
+		</xf:model>
+		<script type="javascript"><![CDATA[
+		/**
+		 * 화면 초기화
+		 */ 
+		scwin.initScreen = function() {
+			dma_ReqInfo.set("EMP_CD", comLib.getCookie("EMP_CD"));
+			dma_ReqInfo.set("PASSWORD", comLib.getCookie("PASSWORD"));
+			comLib.setEnterKeyEvent(grp_LoginInfo, scwin.login);
+			ibx_UserId.focus();
+		};
+	
+		/**
+		 * 로그인 처리 함수
+		 */
+		scwin.login = function() {
+			if (valLib.validateGroup(grp_LoginInfo)) {
+				var option = { id : "sbm_Login"
+							, action : "loginout/login"
+							, ref : "data:json, {'id':'dma_ReqInfo', 'key':'param'}"
+							, submitDoneHandler : "loginCallback"};
+				ajaxLib.executeSubmission(option);
+			}
+		};
+		
+		/**
+		 * 로그인 처리 콜백 함수
+		 */
+		scwin.loginCallback = function(resBody) {
+			if (resBody.result.status === comLib.STATUS_SUCCESS) {
+				if (cbx_IsSaved.getValue() == "Y") {
+					comLib.setCookie("EMP_CD", resBody.data.EMP_CD, 31);
+					comLib.setCookie("PASSWORD", resBody.data.PASSWORD, 31);
+				}
+				$w.url(ajaxLib.CONTEXT_PATH + "/main/main.xml", {"spa" : false, "replaceHistory" : true});
+			} else {
+				comLib.alert(resBody.result.message);
+				if (resBody.result.status === "error_password") {
+					ibx_Password.focus();
+					
+				} else {
+					ibx_UserId.focus();
+				}
+			}
+		};
+
+		scwin.grp_login_onclick = function(e) {
+			scwin.login();
+		};
+		
+		if (scwin.initStatus) {
+			scwin.initScreen();
+		}
+		]]></script>
+	</head>
+	<body>
+		<w2:pageInherit id="comPage" src="/prjtm2/cm/common/content_common.xml" style="" />
+		<xf:group id="group1" style="position:relative;width:1024px;height:764px;top:50px;left:50%;margin-left: -512px;background-image: url(/prjtm2/images/login.jpg);">
+			<xf:group id="grp_LoginInfo" style="position:absolute;top:385px;left:384px;width:228px;height:46px;">
+				<xf:input displaymessage="" enterBlur="false" id="ibx_UserId" mandatory="true" maxByteLength="" placeholder="사번을 입력하세요" ref="data:dma_ReqInfo.EMP_CD"
+					style="position: absolute;left:0px;top:0px;width: 224px;height: 19px;border: none;" />
+				<xf:secret displaymessage="" enterBlur="false" id="ibx_Password" mandatory="true" placeholder="비밀번호를 입력하세요" ref="data:dma_ReqInfo.PASSWORD"
+					style="position: absolute;left:0px;top:27px;width: 224px;height: 19px;border: none;">
+				</xf:secret>
+			</xf:group>
+			<xf:group class="" ev:onclick="scwin.grp_login_onclick" id="grp_login"
+				style="position: absolute ;left: 626px;top: 384px;width: 81px;height: 45px;opacity:0;cursor:pointer;">
+			</xf:group>
+			<xf:group id="group3" style="position:absolute;top:473px;left:277px;width:20px;height:20px;background: #f7f7f7;">
+				<xf:select appearance="full" cols="1" id="cbx_IsSaved" rows="" selectedindex="-1" style="width: 14px;height: 14px;">
+					<xf:choices>
+						<xf:item>
+							<xf:label>
+							</xf:label>
+							<xf:value><![CDATA[Y]]>
+							</xf:value>
+						</xf:item>
+					</xf:choices>
+				</xf:select>
+			</xf:group>
+			<w2:textbox for="checkbox1" id="textbox1" label="" style="position: absolute ;left: 299px;top: 474px;width: 83px;height: 18px;opacity:0;" tagname="label" />
+		</xf:group>
+	</body>
+</html>

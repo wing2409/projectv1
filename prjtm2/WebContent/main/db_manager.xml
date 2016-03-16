@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/prjtm2/cm/css/common.css" type="text/css"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:buildDate/>
+		<xf:model>
+			<xf:instance>
+				<data xmlns=""/>
+			</xf:instance>
+			<w2:dataCollection>
+			</w2:dataCollection>
+		</xf:model>
+		<script type="javascript"><![CDATA[ 
+		
+		scwin.initScreen = function() {
+		};
+		
+		scwin.btn_CreateTable_onclick = function(e){
+			var option = { id : "sbm_CreateTable"
+						 , action : "db/createAllTable"
+						 , isShowMeg : true };
+			ajaxLib.executeSubmission(option);
+		};
+		
+		scwin.btn_InsertBasicData_onclick = function(e){
+			var option = { id : "sbm_InsertBasicData"
+						 , action : "db/insertBasicData"
+						 , isShowMeg : true };
+			ajaxLib.executeSubmission(option);
+		};
+		
+		scwin.btn_InsertZipcodeType1_onclick = function(e){
+			var option = { id : "sbm_InsertZipcode"
+						 , action : "db/insertZipCodeData"
+						 , isShowMeg : true };
+			ajaxLib.executeSubmission(option);
+		};
+		
+		scwin.btn_DropTable_onclick = function(e){
+			var option = { id : "sbm_DropTable"
+						 , action : "db/dropAllTable"
+						 , isShowMeg : true };
+			ajaxLib.executeSubmission(option);
+		};
+
+		if(scwin.initStatus) {
+			scwin.initScreen();
+		};
+
+		]]></script>
+	</head>
+	<body>
+		<w2:pageInherit id="comPage" src="/prjtm2/cm/common/content_common.xml" style=""></w2:pageInherit>
+		<xf:group class="" id="group1" style="">
+			<xf:group class="cnt_title_grp" id="group2" style="height:30px;">
+				<w2:textbox class="" id="textbox1" label="메뉴관리" style="" tagname="h1"></w2:textbox>
+			</xf:group>
+			<xf:group class="mt5" id="group5" style="height:149px;text-align:right;padding:20px;">
+				<xf:trigger id="btn_CreateTable" style="height:23px;width:200px;margin-left:5px;margin-top:5px;" type="image" ev:onclick="scwin.btn_CreateTable_onclick">
+					<xf:label><![CDATA[테이블 생성]]></xf:label>
+				</xf:trigger>
+				<xf:trigger id="btn_InsertBasicData" style="height:23px;width:200px;margin-left:5px;margin-top:5px;" type="image" ev:onclick="scwin.btn_InsertBasicData_onclick">
+					<xf:label><![CDATA[기초 데이터 생성]]></xf:label>
+				</xf:trigger>
+				<xf:trigger id="btn_InsertZipcodeType1" style="height:23px;width:200px;margin-left:5px;margin-top:5px;" type="image" ev:onclick="scwin.btn_InsertZipcodeType1_onclick">
+					<xf:label><![CDATA[우편번호 데이터 생성]]></xf:label>
+				</xf:trigger><xf:trigger id="btn_DropTable" style="height:23px;width:200px;margin-left:5px;margin-top:5px;" type="image" ev:onclick="scwin.btn_DropTable_onclick">
+					<xf:label><![CDATA[테이블 삭제]]></xf:label>
+				</xf:trigger>
+			</xf:group>
+		</xf:group>
+	</body>
+</html>

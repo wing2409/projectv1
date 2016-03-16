@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+	<select id="board.getBoardList" resultType="HashMap">
+		SELECT BOARD_ID, TITLE, CONTENT, VIEW_COUNT, CAST(CREATED_DATE AS VARCHAR(10)) AS CREATED_DATE 
+			 , CAST(UPDATED_DATE AS VARCHAR(10)) AS UPDATED_DATE, UPDATED_ID, UPDATED_IP
+		  FROM DM_BOARD
+		<where> 
+			<if test="BOARD_ID != null and BOARD_ID != 0">
+				 AND BOARD_ID = #{BOARD_ID}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="board.insertBoard">
+		INSERT INTO DM_BOARD(BOARD_ID, TITLE, CONTENT, VIEW_COUNT, CREATED_DATE, UPDATED_DATE, UPDATED_ID, UPDATED_IP)
+			 VALUES (#{BOARD_ID}, #{TITLE}, #{CONTENT}, #{VIEW_COUNT}, #{CREATED_DATE}, #{UPDATED_DATE}, #{UPDATED_ID}, #{UPDATED_IP})
+	</insert>
+	
+	<update id="board.updateBoard">
+		UPDATE DM_BOARD 
+		   SET TITLE = #{TITLE}, CONTENT = #{CONTENT}, VIEW_COUNT = #{VIEW_COUNT}
+			 , UPDATED_DATE = #{UPDATED_DATE}, UPDATED_ID = #{UPDATED_ID}, UPDATED_IP = #{UPDATED_IP} 
+		 WHERE BOARD_ID = #{BOARD_ID}
+	</update>
+	
+    <delete id="board.deleteBoard">
+        DELETE FROM DM_BOARD WHERE BOARD_ID = #{BOARD_ID}
+    </delete>
+</mapper>

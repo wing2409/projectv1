@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare"
+	xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection>
+			</w2:dataCollection>
+		</xf:model>
+		<script type="javascript"><![CDATA[ 
+		
+		scwin.initContent = function() {
+			if (typeof parent.trv_LeftMenu !== "undefined") {
+				tbx_ScreenTitle.setLabel(parent.trv_LeftMenu.getSelectedLabel());
+			}
+		};
+
+		if (scwin.initStatus) {
+			if (typeof scwin.initScreen === "function") {
+				scwin.initScreen();
+			}
+			
+			if (typeof scwin.initContent === "function") {
+				scwin.initContent();
+			}
+		}
+
+		]]></script>
+	</head>
+	<body>
+		<xf:group class="cnt_title_grp" id="group1" style="">
+			<w2:textbox class="" id="tbx_ScreenTitle" label="" style="" tagname="h1"></w2:textbox>
+		</xf:group>
+	</body>
+</html>

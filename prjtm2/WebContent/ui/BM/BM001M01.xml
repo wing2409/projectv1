@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/prjtm2/cm/css/common.css"" type="text/css"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection>
+				<w2:dataList id="dlt_CodeGrp" baseNode="list" style="" repeatNode="map">
+					<w2:columnInfo>
+						<w2:column id="CHK" name="선택" dataType="text" ignoreStatus="true"></w2:column>
+						<w2:column id="GRP_CD" name="그룹코드" dataType="text"></w2:column>
+						<w2:column id="GRP_NM" name="그룹명" dataType="text"></w2:column>
+						<w2:column id="SORT_ORDER" name="코드순서" dataType="number"></w2:column>
+						<w2:column id="IS_USE" name="사용여부" dataType="number"></w2:column>
+						<w2:column id="NOTE" name="비고" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+				<w2:dataList id="dlt_Code" baseNode="list" style="" repeatNode="map">
+					<w2:columnInfo>
+						<w2:column id="CHK" name="선택" dataType="text" ignoreStatus="true"></w2:column>
+						<w2:column id="GRP_CD" name="그룹코드" dataType="text"></w2:column>
+						<w2:column id="COM_CD" name="공통코드" dataType="text"></w2:column>
+						<w2:column id="CODE_NM" name="코드명" dataType="text"></w2:column>
+						<w2:column id="SORT_ORDER" name="코드순서" dataType="number"></w2:column>
+						<w2:column id="IS_USE" name="사용여부" dataType="number"></w2:column>
+						<w2:column id="ATTR_VALUE1" name="속성값1" dataType="text"></w2:column>
+						<w2:column id="ATTR_VALUE2" name="속성값2" dataType="text"></w2:column>
+						<w2:column id="ATTR_VALUE3" name="속성값3" dataType="text"></w2:column>
+						<w2:column id="NOTE" name="비고" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+			</w2:dataCollection>
+		</xf:model>
+		<script type="javascript"><![CDATA[
+		/**
+		 * 화면 초기화에 필요한 로직을 수행한다.
+		 */
+		scwin.initScreen = function() {
+			scwin.searchCodeGrp();
+		};
+		
+		/**
+		 * 코드 그룹을 조회한다.
+		 */
+		scwin.searchCodeGrp = function() {
+			var option = { id : "sbm_GetCodeGrpList"
+						 , action : "code/getCodeGrpList"
+						 , target : "data:json, {'id':'dlt_CodeGrp', 'key':'data'}"
+						 , submitDoneHandler : "searchCodeGrpCallback" };
+			ajaxLib.executeSubmission(option);
+		};
+
+		/**
+		 * 코드 그룹 조회후 콜백 로직을 수행한다.
+		 */
+		scwin.searchCodeGrpCallback = function(resBody) {
+			if (dlt_CodeGrp.getRowCount() > 0) {
+				grd_CodeGrp.setFocusedCell(0, 0);
+			}
+		};
+
+		/**
+		 * 코드 그룹을 추가한다.
+		 */
+		scwin.btn_InsertCodeGrp_onclick = function() {
+			var insertedIndex = dlt_CodeGrp.insertRow();
+			grd_CodeGrp.setCellReadOnly(insertedIndex, "GRP_CD", false);
+			grd_CodeGrp.setFocusedCell(insertedIndex, "GRP_CD", true);
+		};
+		
+		/**
+		 * 코드 그룹을 삭제한다.
+		 */
+		scwin.btn_RemoveCodeGrp_onclick = function() {
+			comLib.removeGridView(grd_CodeGrp);
+		};
+		
+		/**
+		 * 업데이트(등록, 수정, 삭제)된 코드 그룹을 데이터베이스에 저장한다.
+		 */
+		scwin.btn_SaveCodeGrp_onclick = function() {
+			var valInfo = [ {id : "GRP_CD",  mandatory : true, minlength : 2, isHangul : false}
+						  , {id : "GRP_NM",  mandatory : true, isHangul : true}
+						  , {id : "SORT_ORDER",  mandatory : true} ];
+			if (valLib.validateGridView(grd_CodeGrp, valInfo)) {
+				comLib.confirm("변경된 코드 그룹 정보를 저장하시겠습니까?", "saveCodeGrpConfirmCallback");
+			}
+		};
+		
+		scwin.saveCodeGrpConfirmCallback = function() {
+			var option = {id : "sbm_SaveCodeGrp"
+						, action : "code/saveCodeGrpList"
+						, ref : "data:json, {'id':'dlt_CodeGrp', 'action':'modified', 'key':'data'}"
+						, submitDoneHandler : "saveCodeGrpCallback"
+						, isShowMeg : true };
+			ajaxLib.executeSubmission(option);
+		};
+
+		/**
+		 * 코드 그룹을 업데이트한 후에 필요한 콜백 로직을 수행한다.
+		 */
+		scwin.saveCodeGrpCallback = function(resBody) {
+			comLib.alert(resBody.result.message);
+			scwin.searchCodeGrp();
+		};
+		
+		/**
+		 * 업데이트된 코드 그룹을 업데이트 전 상태로 되돌린다.
+		 */
+		scwin.btn_CancelCodeGrp_onclick = function() {
+			comLib.confirm("코드 그룹 정보를 변경 전 상태로 복원하시겠습니까?", "cancelCodeGrpConfirmCallback");
+		};
+		
+		scwin.cancelCodeGrpConfirmCallback = function() {
+			grd_Code.setHeaderValue("chkHeader","0");
+			comLib.rollbackGridView(grd_CodeGrp, 0, "GRP_CD");
+		};
+		
+		/**
+		 * 코드 그룹 데이터를 엑셀 파일로 다운로드 받는다.
+		 */
+		scwin.btn_ExcelCodeGrp_onclick = function() {
+			comLib.downloadExcel(grd_CodeGrp, {fileName : "Code_Group_Data.xlsx"}, []);
+		};
+
+		/**
+		 * 코드를 조회한다.
+		 */
+		scwin.grd_CodeGrp_onrowindexchange = function(row, oldRow){
+			grd_Code.setHeaderValue("chkHeader","0");
+			var grpCd = dlt_CodeGrp.getCellData(row, "GRP_CD");
+			if (grpCd !== "") {
+				var option = { id : "sbm_GetCodeList"
+							 , action : "code/getCodeList"
+							 , target : "data:json, {'id':'dlt_Code', 'key':'data'}" };
+				var reqData = {"param" : {"GRP_CD" : grpCd}};
+				ajaxLib.executeSubmission(option, reqData);
+			} else {
+				dlt_Code.removeAll();
+			}
+		};
+
+		/**
+		 * 코드를 추가한다.
+		 */
+		scwin.btn_InsertCode_onclick = function() {
+			var insertedIndex = dlt_Code.insertRow();
+			dlt_Code.setCellData(insertedIndex, "GRP_CD", dlt_CodeGrp.getCellData(grd_CodeGrp.getFocusedRowIndex(), "GRP_CD"));
+			grd_Code.setCellReadOnly(insertedIndex, "COM_CD", false);
+			grd_Code.setFocusedCell(insertedIndex, "COM_CD", true);
+		};
+		
+		/**
+		 * 코드를 삭제한다.
+		 */
+		scwin.btn_RemoveCode_onclick = function() {
+			comLib.removeGridView(grd_Code);
+		};
+		
+		/**
+		 * 업데이트(등록, 수정, 삭제)된 코드를 데이터베이스에 저장한다.
+		 */	
+		scwin.btn_SaveCode_onclick = function() {
+			var valInfo = [ {id : "COM_CD",  mandatory : true, minlength : 2, isHangul : false} 
+						  , {id : "CODE_NM",  mandatory : true, isHangul : true}
+						  , {id : "SORT_ORDER",  mandatory : true} ];
+			if (valLib.validateGridView(grd_Code, valInfo)) {
+				comLib.confirm("변경된 코드 정보를 저장하시겠습니까?", "saveCodeConfirmCallback");
+			}
+		};
+		
+		scwin.saveCodeConfirmCallback = function() {
+			var modifiedData = comLib.getModifiedData(dlt_Code);
+			var option = {id : "sub_SaveCodeConfirm"
+						, action : "code/saveCodeList"
+						, ref : "data:json, {'id':'dlt_Code', 'action':'modified', 'key':'data'}"
+						, submitDoneHandler : "saveCodeCallback"
+						, isShowMeg : true };
+			ajaxLib.executeSubmission(option);
+		};
+		
+		/**
+		 * 코드를 업데이트한 후에 필요한 콜백 로직을 수행한다.
+		 */
+		scwin.saveCodeCallback = function(resBody) {
+			comLib.alert(resBody.result.message);
+			scwin.grd_CodeGrp_onrowindexchange(grd_CodeGrp.getFocusedRowIndex());
+		};
+		
+		/**
+		 * 업데이트된 코드를 업데이트 전 상태로 되돌린다.
+		 */
+		scwin.btn_CancelCode_onclick = function() {
+			comLib.confirm("코드 정보를 변경 전 상태로 복원하시겠습니까?", "cancelCodeConfirmCallback");
+		};
+		
+		scwin.cancelCodeConfirmCallback = function() {
+			comLib.rollbackGridView(grd_Code, 0, "COM_CD");
+		};
+		
+		/**
+		 * 코드 데이터를 엑셀 파일로 다운로드 받는다.
+		 */
+		scwin.btn_ExcelCode_onclick = function() {
+			comLib.downloadExcel(grd_Code, {fileName : "Code_Data.xlsx"}, []);
+		};
+		
+		]]></script>
+	</head>
+	<body>
+		<w2:pageInherit id="comPage" src="/prjtm2/cm/common/content_common.xml" style=""></w2:pageInherit>
+		<xf:group id="content_gp" style="" class="">
+			<w2:wframe id="wframe1" src="/prjtm2/cm/common/content_header.xml"></w2:wframe>
+			<xf:group id="grp_CodeGrpHeader" style="" class="mt5 clearfix">
+				<w2:textbox id="tbx_TitleCodeGrp" style="float:left;" label="코드그룹" tagname="h2"></w2:textbox>
+				<xf:group id="group1645gfgf" style="" class="fr m">
+					<w2:anchor id="btn_InsertCodeGrp" style="" ev:onclick="scwin.btn_InsertCodeGrp_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[등록]]></xf:label>
+					</w2:anchor>
+					<w2:anchor id="btn_RemoveCodeGrp" style="" ev:onclick="scwin.btn_RemoveCodeGrp_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[삭제]]></xf:label>
+					</w2:anchor>
+					<w2:anchor id="btn_SaveCodeGrp" style="" ev:onclick="scwin.btn_SaveCodeGrp_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[저장]]></xf:label>
+					</w2:anchor>
+					<w2:anchor id="btn_CancelCodeGrp" style="" ev:onclick="scwin.btn_CancelCodeGrp_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[취소]]></xf:label>
+					</w2:anchor>
+					<w2:anchor class="btn_com" id="btn_ExcelCodeGrp" outerDiv="" style="" ev:onclick="scwin.btn_ExcelCodeGrp_onclick">
+						<xf:label><![CDATA[엑셀]]></xf:label>
+					</w2:anchor>
+				</xf:group>
+			</xf:group>
+			<w2:gridView dataList="dlt_CodeGrp" scrollByColumn="false" id="grd_CodeGrp" style="width:100.0%;height:100px;" fixedColumnWithHidden=""
+				useShiftKey="false" autoFit="allColumn" visibleRowNum="10" class="grdView" rowNumVisible="" rowNumHeaderValue="" keepDefaultColumnWidth="true" focusMode="both"
+				rowNumWidth="" rowStatusWidth="40" rowStatusVisible="true" rowStatusHeaderValue="상태" enterKeyMove="" keyMoveEditMode="true" editModeEvent=""
+				ev:onrowindexchange="scwin.grd_CodeGrp_onrowindexchange">
+				<w2:header id="header1" style="">
+					<w2:row id="row1" style="">
+						<w2:column blockSelect="false" id="chkHeader" style="height:20px" inputType="checkbox" width="40" value="CHK" valueType="binary"></w2:column>
+						<w2:column blockSelect="false" id="column9" style="height:20px" inputType="text" width="70" value="그룹코드"></w2:column>
+						<w2:column blockSelect="false" id="column7" style="height:20px" inputType="text" width="179" value="그룹명"></w2:column>
+						<w2:column blockSelect="false" id="column5" style="height:20px" inputType="text" width="70" value="코드순서"></w2:column>
+						<w2:column blockSelect="false" id="column3" style="height:20px" inputType="text" width="70" value="사용여부"></w2:column>
+						<w2:column blockSelect="false" id="column1" style="height:20px" width="464" inputType="text" value="비고"></w2:column>
+					</w2:row>
+				</w2:header>
+				<w2:gBody id="gBody1" style="">
+					<w2:row id="row2" style="">
+						<w2:column blockSelect="false" id="CHK" style="height:20px" inputType="checkbox" width="41" trueValue="1" falseValue='0' valueType="other"></w2:column>
+						<w2:column blockSelect="false" id="GRP_CD" style="height:20px" inputType="text" width="70" maxLength="5" allowChar="" readOnly="true"></w2:column>
+						<w2:column blockSelect="false" id="GRP_NM" style="height:20px;" inputType="text" width="179" textAlign="left" maxLength="100"></w2:column>
+						<w2:column blockSelect="false" id="SORT_ORDER" style="height:20px" inputType="text" width="70"></w2:column>
+						<w2:column blockSelect="false" id="IS_USE" style="height:20px" inputType="checkbox" width="70" trueValue="Y" falseValue="N" yearSuffix=""
+							viewType="" verticalAlign="" valueType="other" value="" defaultValue="Y" depthColumn=""></w2:column>
+						<w2:column blockSelect="false" id="NOTE" style="height:20px;" width="464" inputType="text" textAlign="left" maxLength="500"></w2:column>
+					</w2:row>
+				</w2:gBody>
+			</w2:gridView>
+			<xf:group id="grp_CodeHeader" style="" class="mt5 clearfix">
+				<w2:textbox id="tbx_TitleCode" label="코드" style="float:left;" tagname="h2"></w2:textbox>
+				<xf:group id="group2" style="" class="fr m">
+					<w2:anchor id="btn_InsertCode" style="" ev:onclick="scwin.btn_InsertCode_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[등록]]></xf:label>
+					</w2:anchor>
+					<w2:anchor id="btn_RemoveCode" style="" ev:onclick="scwin.btn_RemoveCode_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[삭제]]></xf:label>
+					</w2:anchor>
+					<w2:anchor id="btn_SaveCode" style="" ev:onclick="scwin.btn_SaveCode_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[저장]]></xf:label>
+					</w2:anchor>
+					<w2:anchor id="btn_CancelCode" style="" ev:onclick="scwin.btn_CancelCode_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[취소]]></xf:label>
+					</w2:anchor>
+					<w2:anchor id="btn_ExcelCode" style="" ev:onclick="scwin.btn_ExcelCode_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[엑셀]]></xf:label>
+					</w2:anchor>
+				</xf:group>
+			</xf:group>
+			<w2:gridView dataList="dlt_Code" scrollByColumn="false" id="grd_Code" style="width: 100%;height:100px;" fixedColumnWithHidden="true" useShiftKey="false"
+				visibleRowNum="20" autoFit="allColumn" class="grdView" rowStatusVisible="true" rowNumVisible="" rowNumHeaderValue="" rowStatusHeaderValue="상태"
+				keyMoveEditMode="true" rowStatusWidth="40" keepDefaultColumnWidth="true" editModeEvent="" enterKeyMove="">
+				<w2:header id="header2" style="">
+					<w2:row id="row3" style="">
+						<w2:column blockSelect="false" id="chkHeader" style="height:20px" inputType="checkbox" width="40" value="CHK"></w2:column>
+						<w2:column blockSelect="false" id="column25" style="height:20px" inputType="text" width="70" value="공통코드"></w2:column>
+						<w2:column blockSelect="false" id="column23" style="height:20px" inputType="text" width="147" value="코드명"></w2:column>
+						<w2:column blockSelect="false" id="column21" style="height:20px" inputType="text" width="70" value="코드순서"></w2:column>
+						<w2:column blockSelect="false" id="column19" style="height:20px" inputType="text" width="70" value="사용여부"></w2:column>
+						<w2:column blockSelect="false" id="column17" style="height:20px" inputType="text" width="88" value="속성값1"></w2:column>
+						<w2:column blockSelect="false" id="column15" style="height:20px" inputType="text" width="88" value="속성값2"></w2:column>
+						<w2:column blockSelect="false" id="column13" style="height:20px" inputType="text" width="88" value="속성값3"></w2:column>
+						<w2:column blockSelect="false" id="column11" style="height:20px" width="230" inputType="text" value="비고"></w2:column>
+					</w2:row>
+				</w2:header>
+				<w2:gBody id="gBody2" style="">
+					<w2:row id="row4" style="">
+						<w2:column blockSelect="false" id="CHK" style="height:20px" inputType="checkbox" width="47" trueValue="1" falseValue="0"></w2:column>
+						<w2:column blockSelect="false" id="COM_CD" style="height:20px" inputType="text" width="70" maxLength="10" readOnly="true"></w2:column>
+						<w2:column blockSelect="false" id="CODE_NM" style="height:20px;" inputType="text" width="147" textAlign="left" maxLength="100"></w2:column>
+						<w2:column blockSelect="false" id="SORT_ORDER" style="height:20px" inputType="text" width="70"></w2:column>
+						<w2:column blockSelect="false" id="IS_USE" style="height:20px" inputType="checkbox" width="70" falseValue="N" trueValue="Y" valueType="other"></w2:column>
+						<w2:column blockSelect="false" id="ATTR_VALUE1" style="height:20px;" inputType="text" width="88" textAlign="left" maxLength="100"></w2:column>
+						<w2:column blockSelect="false" id="ATTR_VALUE2" style="height:20px;" inputType="text" width="88" textAlign="left" maxLength="100"></w2:column>
+						<w2:column blockSelect="false" id="ATTR_VALUE3" style="height:20px;" inputType="text" width="88" textAlign="left" maxLength="100"></w2:column>
+						<w2:column blockSelect="false" id="NOTE" style="height:20px;" width="230" inputType="text" textAlign="left" maxLength="500"></w2:column>
+					</w2:row>
+				</w2:gBody>
+			</w2:gridView>
+		</xf:group>
+	</body>
+</html>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/prjtm2/cm/css/common.css" type="text/css"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection>
+				<w2:dataList id="dlt_Person" baseNode="list" style="" repeatNode="map">
+					<w2:columnInfo>
+						<w2:column id="CHK" name="선택" dataType="text"></w2:column>
+						<w2:column id="EMP_CD" name="사원코드" dataType="text"></w2:column>
+						<w2:column id="EMP_NM" name="사원명" dataType="text"></w2:column>
+						<w2:column id="ORG_NM" name="조직" dataType="text"></w2:column>
+						<w2:column id="ASSIGNED_TASK" name="담당업무" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+				<w2:dataMap baseNode="map" id="dma_SearchParam" style="">
+					<w2:keyInfo>
+						<w2:key id="EMP_NM" name="성명" dataType="text"></w2:key>
+					</w2:keyInfo>
+				</w2:dataMap>
+			</w2:dataCollection>
+		</xf:model>
+		<script type="javascript"><![CDATA[ 
+			
+		/**
+		 * 사원 정보 화면 초기화 작업을 수행한다.
+		 */
+		scwin.initScreen = function() {
+			requires("uiplugin.popup");
+			scwin.parentObj = opener || parent;
+			scwin.popupID = WebSquare.net.getParameter("popupID");
+		
+			var popupStr = WebSquare.util.getPopupParam();
+			var paramJson = jsonLib.parse(popupStr);
+			scwin.closeCallbackFncName = paramJson.closeCallbackFncName;
+			
+			comLib.setEnterKeyEvent(grp_Search, scwin.btn_Search_onclick);
+			scwin.btn_Search_onclick();
+		};
+			
+		/**
+		 * 사원 정보를 조회한다.
+		 */
+		scwin.btn_Search_onclick = function() {
+			var option = { id : "sbm_GetPersonOrg"
+						, action : "person/getPersonOrg"
+						, ref : "data:json, {'id':'dma_SearchParam', 'key':'param'}"
+						, target : "data:json, {'id':'dlt_Person', 'key':'data'}"
+						, submitDoneHandler : "searchCallback" };
+			ajaxLib.executeSubmission(option);
+		};
+			
+		/**
+		 * 사원 정보 조회후 콜백 로직을 수행한다.
+		 */
+		scwin.searchCallback = function(resBody) {
+			ibx_EmpNm.focus();
+		};
+			
+		/**
+		 * 선택된 사원정보를 반환한다.
+		 */
+		scwin.btn_Confirm_onclick = function(){
+			var checkedJsonData = dlt_Person.getMatchedJSON("CHK", "1", true, 0, dlt_Person.getRowCount());
+			scwin.parentObj.comLib.closePopup(scwin.popupID, scwin.closeCallbackFncName, checkedJsonData);
+		};
+			
+		/**
+		 * 사원정보 선택을 취소한다.
+		 */
+		scwin.btn_Cancel_onclick = function(){
+			scwin.parentObj.comLib.closePopup(scwin.popupID);
+		};
+		]]></script>
+	</head>
+	<body>
+		<w2:pageInherit id="comPage" src="/prjtm2/cm/common/content_common.xml" style=""></w2:pageInherit>
+		<xf:group id="content_popup_gp" style="height:422px;">
+			<w2:wframe id="wframe1" src="/prjtm2/cm/common/popup_header.xml"></w2:wframe>
+			<xf:group id="group1" style="" class="">
+				<xf:group id="group2" style="height:30px;" class="cnt_title_grp">
+					<w2:textbox id="textbox1" style="" class="" label="사원조회" tagname="h1"></w2:textbox>
+				</xf:group>
+			</xf:group>
+			<xf:group id="grp_Search" style="height:31px;">
+				<table summary="" id="tbl_Search" style="width:100.0%;height:30px;left:0px;margin-top:5px;" class="w2tb">
+					<xf:group tagname="colgroup">
+						<xf:group style="width:20%;" tagname="col"></xf:group>
+						<xf:group style="width:80%;" tagname="col"></xf:group>
+					</xf:group>
+					<xf:group tagname="tr">
+						<xf:group style="" class="w2tb_th" tagname="th">사원명</xf:group>
+						<xf:group style="" class="w2tb_td" tagname="td">
+							<xf:input id="ibx_EmpNm" ref="data:dma_SearchParam.EMP_NM" style="position: relative;width:149px;height:21px;float:left" mandatory="true">
+							</xf:input>
+							<w2:anchor class="btn_com" id="btn_Search" outerDiv="" style="" ev:onclick="scwin.btn_Search_onclick">
+								<xf:label><![CDATA[조회]]></xf:label>
+							</w2:anchor>
+						</xf:group>
+					</xf:group>
+				</table>
+			</xf:group>
+			<w2:gridView id="gridView1" dataList="dlt_Person" autoFit="allColumn" readOnly="true" style="width:100.0%;height:300px;left:0px;top:5px;"
+				useShiftKey="false" scrollByColumn="false" fixedColumnWithHidden="true">
+				<w2:header id="header1" style="">
+					<w2:row id="row1" style="">
+						<w2:column id="chkHeader" blockSelect="false" style="height:20px" width="39" inputType="checkbox" value="CHK"></w2:column>
+						<w2:column id="column7" blockSelect="false" style="height:20px" width="101" inputType="text" value="사원코드"></w2:column>
+						<w2:column id="column5" blockSelect="false" style="height:20px" width="90" inputType="text" value="사원명"></w2:column>
+						<w2:column id="column3" blockSelect="false" style="height:20px" width="130" inputType="text" value="조직"></w2:column>
+						<w2:column id="column1" blockSelect="false" style="height:20px" inputType="text" width="201" value="담당업무"></w2:column>
+					</w2:row>
+				</w2:header>
+				<w2:gBody id="gBody1" style="">
+					<w2:row id="row2" style="">
+						<w2:column id="CHK" blockSelect="false" style="height:20px" width="39" inputType="checkbox" trueValue="1" falseValue="0" readOnly="false"
+							defaultValue=""></w2:column>
+						<w2:column id="EMP_CD" blockSelect="false" style="height:20px" width="101" inputType="text"></w2:column>
+						<w2:column id="EMP_NM" blockSelect="false" style="height:20px" width="90" inputType="text"></w2:column>
+						<w2:column id="ORG_NM" blockSelect="false" style="height:20px" width="130" inputType="text"></w2:column>
+						<w2:column id="ASSIGNED_TASK" blockSelect="false" style="height:20px" inputType="text" width="201"></w2:column>
+					</w2:row>
+				</w2:gBody>
+			</w2:gridView>
+			<xf:group id="group10" style="width: 100%;height: 40px;" class="">
+				<w2:anchor class="btn_com" id="btn_Confirm" outerDiv="" style="margin-top:10px;margin-left:230px;" ev:onclick="scwin.btn_Confirm_onclick">
+					<xf:label><![CDATA[확인]]></xf:label>
+				</w2:anchor>
+				<w2:anchor class="btn_com" id="btn_Cancel" outerDiv="" style="margin-left:5px;margin-top:10px;" ev:onclick="scwin.btn_Cancel_onclick">
+					<xf:label><![CDATA[취소]]></xf:label>
+				</w2:anchor>
+			</xf:group>
+		</xf:group>
+	</body>
+</html>

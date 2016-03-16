@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/prjtm2/cm/css/common.css" type="text/css"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection>
+			</w2:dataCollection>
+		</xf:model>
+		<script type="javascript"><![CDATA[ 
+		
+		/**
+		 * 사진 업로드 화면 초기화 작업을 수행한다.
+		 */
+		scwin.initScreen = function() {
+			requires("uiplugin.popup");
+			scwin.parentObj = opener || parent;
+			scwin.popupID = WebSquare.net.getParameter("popupID");
+		
+			var popupStr = WebSquare.util.getPopupParam();
+			var paramJson = jsonLib.parse(popupStr);
+			scwin.closeCallbackFncName = paramJson.closeCallbackFncName;
+		};
+
+		/**
+		 * 사진 업로드를 반환한다.
+		 */
+		scwin.btn_Confirm_onclick = function() {
+			upd_Image.setSubDir('personImage'); 
+			upd_Image.submit();
+		};
+		
+		scwin.upd_Image_ondone = function(retXml) {
+			var filePath = WebSquare.xml.getValue(retXml, "ret/storedFileList");
+			scwin.parentObj.comLib.closePopup(scwin.popupID, scwin.closeCallbackFncName, filePath);
+		};
+		
+		/**
+		 * 사진 업로드를 취소한다.
+		 */
+		scwin.btn_Cancel_onclick = function() {
+			scwin.parentObj.comLib.closePopup(scwin.popupID);
+		};
+
+		]]></script>
+	</head>
+	<body>
+		<w2:pageInherit id="pageInherit1" src="/prjtm2/cm/common/content_common.xml" style=""></w2:pageInherit>
+		<xf:group class="" id="content_popup_gp" style="">
+			<w2:wframe id="wframe1" src="/prjtm2/cm/common/popup_header.xml"></w2:wframe>
+			<xf:group class="cnt_title_grp" id="group2" style="height:30px;">
+				<w2:textbox class="" id="textbox1" label="사진 업로드" style="" tagname="h1"></w2:textbox>
+			</xf:group>
+			<xf:group id="group4" style="height: 80px;" class="">
+				<w2:upload id="upd_Image" style="position:relative;width:367px;height:23px;margin-top:30px;margin-left:45px;float:left;" imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word"
+					inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" type="image" disabled="" ev:ondone="scwin.upd_Image_ondone">
+				</w2:upload>
+			</xf:group>
+			<xf:group class="" id="group3" style="width: 100%;height: 40px;">
+				<w2:anchor class="btn_com" id="btn_Confirm" outerDiv="" style="margin-top:10px;margin-left:185px;" ev:onclick="scwin.btn_Confirm_onclick">
+					<xf:label><![CDATA[확인]]></xf:label>
+				</w2:anchor>
+				<w2:anchor class="btn_com" id="btn_Cancel" outerDiv="" style="margin-left:5px;margin-top:10px;" ev:onclick="scwin.btn_Cancel_onclick">
+					<xf:label><![CDATA[취소]]></xf:label>
+				</w2:anchor>
+			</xf:group>
+		</xf:group>
+	</body>
+</html>

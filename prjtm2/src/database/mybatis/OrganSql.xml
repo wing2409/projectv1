@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="organ">
+
+	<select id="organ.getOrganBasicList" resultType="HashMap">	
+		SELECT ORG_CD, ORG_CLASS_CD, ORG_NM, ORG_ALIAS_NM, ORG_EN_NM, ORG_EN_ALIAS_NM, SORT_ORDER, ORG_LEVEL, PARENT_ORG_CD
+			 , ORG_BOSS_EMP_CD, START_DATE, END_DATE, NOTE
+			 , CAST(CREATED_DATE AS VARCHAR(10)) AS CREATED_DATE, CAST(UPDATED_DATE AS VARCHAR(10)) AS UPDATED_DATE
+			 , UPDATED_ID, UPDATED_IP
+		  FROM HM_ORGAN_BASIC
+		<where> 
+			<if test="ORG_CD != null and ORG_CD != ''">
+				 AND ORG_CD = #{ORG_CD}
+			</if>
+		</where>
+		 ORDER BY ORG_CD 
+	</select>
+	
+	<insert id="organ.insertOrganBasic">
+		INSERT INTO HM_ORGAN_BASIC(ORG_CD, ORG_CLASS_CD, ORG_NM, ORG_ALIAS_NM, ORG_EN_NM, ORG_EN_ALIAS_NM, SORT_ORDER, ORG_LEVEL   
+								 , PARENT_ORG_CD, ORG_BOSS_EMP_CD, START_DATE, END_DATE, NOTE, CREATED_DATE, UPDATED_DATE, UPDATED_ID, UPDATED_IP)
+			 VALUES (#{ORG_CD}, #{ORG_CLASS_CD}, #{ORG_NM}, #{ORG_ALIAS_NM}, #{ORG_EN_NM}, #{ORG_EN_ALIAS_NM}, #{SORT_ORDER}, #{ORG_LEVEL}
+				   , #{PARENT_ORG_CD}, #{ORG_BOSS_EMP_CD}, #{START_DATE}, #{END_DATE}, #{NOTE}
+				   , #{CREATED_DATE}, #{UPDATED_DATE}, #{UPDATED_ID}, #{UPDATED_IP})
+	</insert>
+	
+	<update id="organ.updateOrganBasic">
+		UPDATE HM_ORGAN_BASIC 
+		   SET ORG_CLASS_CD = #{ORG_CLASS_CD}, ORG_NM = #{ORG_NM}, ORG_ALIAS_NM = #{ORG_ALIAS_NM}, ORG_EN_NM = #{ORG_EN_NM}, ORG_EN_ALIAS_NM = #{ORG_EN_ALIAS_NM}, SORT_ORDER = #{SORT_ORDER}
+			 , ORG_LEVEL = #{ORG_LEVEL}, PARENT_ORG_CD = #{PARENT_ORG_CD}, ORG_BOSS_EMP_CD = #{ORG_BOSS_EMP_CD}, START_DATE = #{START_DATE}, END_DATE = #{END_DATE}, NOTE = #{NOTE}
+			 , UPDATED_DATE = #{UPDATED_DATE}, UPDATED_ID = #{UPDATED_ID}, UPDATED_IP = #{UPDATED_IP} 
+		 WHERE ORG_CD = #{ORG_CD}
+	</update>
+	
+	<delete id="organ.deleteOrganBasic">
+		DELETE FROM HM_ORGAN_BASIC WHERE ORG_CD = #{ORG_CD}
+	</delete>
+</mapper>

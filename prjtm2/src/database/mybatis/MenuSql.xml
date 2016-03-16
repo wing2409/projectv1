@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="menu">
+
+	<select id="menu.getMenuList" resultType="HashMap">	
+		SELECT MENU_CD, MENU_NM, PARENT_MENU_CD, MENU_LEVEL, SORT_ORDER, SRC_PATH, IS_USE, NOTE
+			 , CAST(CREATED_DATE AS VARCHAR(10)) AS CREATED_DATE, CAST(UPDATED_DATE AS VARCHAR(10)) AS UPDATED_DATE
+			 , UPDATED_ID, UPDATED_IP
+		  FROM BM_MENU
+		<where> 
+			<if test="MENU_CD != null and MENU_CD != ''">
+				 AND MENU_CD = #{MENU_CD}
+			</if>
+		</where>
+		ORDER BY MENU_CD
+	</select>
+	
+	<select id="menu.getPersonMenuList" resultType="HashMap">	
+		SELECT BMU.MENU_CD, BMU.MENU_NM, BMU.PARENT_MENU_CD, BMU.MENU_LEVEL, BMU.SORT_ORDER, BMU.SRC_PATH, BMU.IS_USE, BMU.NOTE
+			 , CAST(BMU.CREATED_DATE AS VARCHAR(10)) AS CREATED_DATE, CAST(BMU.UPDATED_DATE AS VARCHAR(10)) AS UPDATED_DATE
+			 , BMU.UPDATED_ID, BMU.UPDATED_IP
+		  FROM BM_MENU BMU
+			   INNER JOIN BM_AUTHORITY_MENU BAM ON BMU.MENU_CD = BAM.MENU_CD
+			   INNER JOIN HM_PERSON_AUTHORITY HPA ON BAM.AUTHORITY_CD = HPA.AUTHORITY_CD
+		 WHERE BMU.IS_USE = 'Y'
+		<if test="EMP_CD != null and EMP_CD != ''">
+			 AND HPA.EMP_CD = #{EMP_CD}
+		</if>
+		ORDER BY BMU.MENU_CD
+	</select>
+	
+	<insert id="menu.insertMenu">
+		INSERT INTO BM_MENU(MENU_CD, MENU_NM, PARENT_MENU_CD, MENU_LEVEL, SORT_ORDER, SRC_PATH, IS_USE, NOTE 
+						  , CREATED_DATE, UPDATED_DATE, UPDATED_ID, UPDATED_IP)							  
+			 VALUES (#{MENU_CD}, #{MENU_NM}, #{PARENT_MENU_CD}, #{MENU_LEVEL}, #{SORT_ORDER}, #{SRC_PATH}, #{IS_USE}, #{NOTE}
+				   , #{CREATED_DATE}, #{UPDATED_DATE}, #{UPDATED_ID}, #{UPDATED_IP})
+	</insert>
+	
+	<update id="menu.updateMenu">
+		UPDATE BM_MENU
+		   SET MENU_NM = #{MENU_NM}, PARENT_MENU_CD = #{PARENT_MENU_CD}, MENU_LEVEL = #{MENU_LEVEL}
+			 , SORT_ORDER = #{SORT_ORDER}, SRC_PATH = #{SRC_PATH}, IS_USE = #{IS_USE}, NOTE = #{NOTE}
+			 , UPDATED_DATE = #{UPDATED_DATE}, UPDATED_ID = #{UPDATED_ID}, UPDATED_IP = #{UPDATED_IP} 
+		 WHERE MENU_CD = #{MENU_CD}
+	</update>
+	
+	<delete id="menu.deleteMenu">
+		DELETE FROM BM_MENU WHERE MENU_CD = #{MENU_CD}
+	</delete>
+	
+</mapper>

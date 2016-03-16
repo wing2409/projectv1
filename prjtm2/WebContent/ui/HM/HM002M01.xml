@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/prjtm2/cm/css/common.css"" type="text/css"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection>
+				<w2:dataMap baseNode="map" id="dma_PersonBasic" style="" firstSet="true">
+					<w2:keyInfo>
+						<w2:key id="rowStatus" name="상태" dataType="text"></w2:key>
+						<w2:key id="EMP_CD" name="사원코드" dataType="text"></w2:key>
+						<w2:key id="EMP_NM" name="사원명" dataType="text"></w2:key>
+						<w2:key id="EMP_CN_NM" name="사원한자명" dataType="text"></w2:key>
+						<w2:key id="EMP_EN_NM" name="사원영문명" dataType="text"></w2:key>
+						<w2:key id="PASSWORD" name="비밀번호" dataType="text"></w2:key>
+						<w2:key id="RESIDENT_NO" name="주민번호" dataType="text"></w2:key>
+						<w2:key id="JOIN_DATE" name="입사일" dataType="date"></w2:key>
+						<w2:key id="JOIN_CLASS_CD" name="입사구분" dataType="text"></w2:key>
+						<w2:key id="POSITION_CD" name="직위" dataType="text"></w2:key>
+						<w2:key id="DUTY_CD" name="직책" dataType="text"></w2:key>
+						<w2:key id="LAST_APPOINT_DATE" name="최종발령일" dataType="date"></w2:key>
+						<w2:key id="POSITION_UPDATED_DATE" name="호칭변경일" dataType="date"></w2:key>
+						<w2:key id="ORG_CD" name="소속" dataType="text"></w2:key>
+						<w2:key id="ORG_NM" name=" 소속명" dataType="text"></w2:key>
+						<w2:key id="JOB_FAMILY_CD" name="직군" dataType="text"></w2:key>
+						<w2:key id="JOB_CD" name="직무" dataType="text"></w2:key>
+						<w2:key id="ASSIGNED_TASK" name="담당업무" dataType="text"></w2:key>
+						<w2:key id="OFFICE_PHONE1" name="사내직통전화1" dataType="text"></w2:key>
+						<w2:key id="OFFICE_PHONE2" name="사내직통전화2" dataType="text"></w2:key>
+						<w2:key id="OFFICE_PHONE3" name="사내직통전화3" dataType="text"></w2:key>
+						<w2:key id="HOME_PHONE1" name="자택전화1" dataType="text"></w2:key>
+						<w2:key id="HOME_PHONE2" name="자택전화2" dataType="text"></w2:key>
+						<w2:key id="HOME_PHONE3" name="자택전화3" dataType="text"></w2:key>
+						<w2:key id="CELL_PHONE1" name="휴대폰1" dataType="text"></w2:key>
+						<w2:key id="CELL_PHONE2" name="휴대폰2" dataType="text"></w2:key>
+						<w2:key id="CELL_PHONE3" name="휴대폰3" dataType="text"></w2:key>
+						<w2:key id="EMAIL" name="이메일" dataType="text"></w2:key>
+						<w2:key id="RELIGION_CD" name="종교" dataType="text"></w2:key>
+						<w2:key id="LAST_SCHOOL_NM" name="최종학교" dataType="text"></w2:key>
+						<w2:key id="MAJOR_NM" name="전공" dataType="text"></w2:key>
+						<w2:key id="SCHOOL_CAREER_CD" name="입사학력" dataType="text"></w2:key>
+						<w2:key id="HOUSE_KIND_CD" name="주거형태" dataType="text"></w2:key>
+						<w2:key id="ZIP_CD" name="우편번호" dataType="text"></w2:key>
+						<w2:key id="ADDRESS1" name="주소1" dataType="text"></w2:key>
+						<w2:key id="ADDRESS2" name="주소2" dataType="text"></w2:key>
+						<w2:key id="IS_VETERAN_WELFARE" name="보훈여부" dataType="text"></w2:key>
+						<w2:key id="IS_MILITARY_SERVICE" name="군필여부" dataType="text"></w2:key>
+						<w2:key id="BIRTH_DATE" name="생년월일" dataType="date"></w2:key>
+						<w2:key id="IS_LUNAR" name="음력구분" dataType="text"></w2:key>
+						<w2:key id="IS_MARRIAGE" name="결혼여부" dataType="text"></w2:key>
+						<w2:key id="HOPPY" name="취미" dataType="text"></w2:key>
+						<w2:key id="TALENT" name="특기" dataType="text"></w2:key>
+						<w2:key id="RETIRE_REASON" name="휴퇴직사유" dataType="text"></w2:key>
+						<w2:key id="IMAGE_PATH" name="프로필사진이미지경로" dataType="text"></w2:key>
+					</w2:keyInfo>
+					<w2:data use="false"></w2:data>
+				</w2:dataMap>
+				<w2:dataList id="dlt_PersonProject" baseNode="list" style="" repeatNode="map">
+					<w2:columnInfo>
+						<w2:column id="CHK" name="선택" dataType="text" ignoreStatus="true"></w2:column>
+						<w2:column id="EMP_CD" name="사원코드" dataType="text"></w2:column>
+						<w2:column id="SEQ" name="순번" dataType="number"></w2:column>
+						<w2:column id="PROJECT_NM" name="프로젝트명" dataType="text"></w2:column>
+						<w2:column id="PROJECT_DESC" name="프로젝트 개요" dataType="text"></w2:column>
+						<w2:column id="START_DATE" name="참여시작기간" dataType="date"></w2:column>
+						<w2:column id="END_DATE" name="참여종료기간" dataType="date"></w2:column>
+						<w2:column id="ASSIGNED_TASK" name="담당업무" dataType="text"></w2:column>
+						<w2:column id="ORDERING_ORG" name="발주처" dataType="text"></w2:column>
+						<w2:column id="COMPANY" name="소속사" dataType="text"></w2:column>
+						<w2:column id="NOTE" name="비고" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+				<w2:dataList id="dlt_PersonFamily" baseNode="list" style="" repeatNode="map">
+					<w2:columnInfo>
+						<w2:column id="CHK" name="선택" dataType="text" ignoreStatus="true"></w2:column>
+						<w2:column id="EMP_CD" name="사원코드" dataType="text"></w2:column>
+						<w2:column id="SEQ" name="순번" dataType="number"></w2:column>
+						<w2:column id="RELATIONSHIP" name="관계" dataType="text"></w2:column>
+						<w2:column id="FAMILY_NM" name="가족성명" dataType="text"></w2:column>
+						<w2:column id="RESIDENT_NO" name="주민번호" dataType="text"></w2:column>
+						<w2:column id="JOB" name="직업" dataType="text"></w2:column>
+						<w2:column id="IS_CORESIDENCE" name="동거여부" dataType="number"></w2:column>
+						<w2:column id="IS_SUPPORT" name="부양여부" dataType="number"></w2:column>
+					</w2:columnInfo>
+					<w2:data use="false"></w2:data>
+				</w2:dataList>
+				<w2:linkedDataList id="ldt_code_24" style="" bind="dlt_Code">
+					<w2:condition type="filter"><![CDATA[(grp_cd == '24') && (ATTR_VALUE1 == val('sbx_JobFamily')))]]></w2:condition>
+					<w2:condition type="sort"><![CDATA[ ]]></w2:condition>
+				</w2:linkedDataList>
+			</w2:dataCollection>
+		</xf:model>
+		<script type="javascript"><![CDATA[ 
+		
+		/**
+		 * 화면 초기화에 필요한 로직을 수행한다.
+		 */
+		scwin.initScreen = function() {
+			var codeOption = [{group : "01", object : [sbx_Duty] }, 
+							  {group : "02", object : [sbx_Postion] },
+							  {group : "04", object : [sbx_Religion] },
+							  {group : "13", object : [sbx_SchoolCareer] },
+							  {group : "21", object : [sbx_JoinClass] },
+							  {group : "22", object : [sbx_HouseKind] },
+							  {group : "23", object : [sbx_JobFamily] }];
+			comLib.setCodeObject(codeOption);
+	
+			scwin.searchPersonBasic();
+			scwin.tabDrawStatus = { tab_PersonDetail : true, tab_PersonFamily : false, tab_PersonProject : false };
+		};
+		
+		/**
+		 * 사원 정보를 조회한다.
+		 */
+		scwin.searchPersonBasic = function() {
+			var option = { id : "sbm_GetLoginPersonBasic"
+						 , action : "person/getLoginPersonBasic"
+						 , target : "data:json, {'id':'dma_PersonBasic', 'key':'data'}"
+						 , submitDoneHandler : "searchPersonBasicCallback" };
+			ajaxLib.executeSubmission(option);
+		};
+		
+		scwin.searchPersonBasicCallback = function(resBody) {
+			dma_PersonBasic.setJSON(resBody.data[0]);
+			dma_PersonBasic.reform();
+		};
+		
+		/**
+		 * 업데이트(등록, 수정, 삭제)된 코드 그룹을 데이터베이스에 저장한다.
+		 */
+		scwin.btn_SavePersonBasic_onclick = function() {
+			var familyFlag = false;
+			var projectFlag = false;
+			var personFlag = false;
+			
+			if (dma_PersonBasic.getModifiedIndex().length > 0) {
+				if((valLib.validateGroup(grp_PersonBasic1, dma_PersonBasic)) && (valLib.validateGroup(grp_PersonBasic2, dma_PersonBasic))) {
+					personFlag = true;
+				} else {
+					tac_PersonInfo.setSelectedTabIndex(0);
+					return;
+				}
+			}
+			
+			var familyInfo = [{id : "RELATIONSHIP", mandatory : true}, 
+							  {id : "FAMILY_NM",  mandatory : true}];
+			if (dlt_PersonFamily.getModifiedIndex().length > 0) {
+				if (valLib.validateGridView(grd_PersonFamily, familyInfo)) {
+					familyFlag = true;
+				} else {
+					tac_PersonInfo.setSelectedTabIndex(1);
+					return;
+				}
+			}
+			
+			var projectInfo = [{id : "PROJECT_NM", mandatory : true}, 
+							   {id : "START_DATE", mandatory : true},
+							   {id : "END_DATE", mandatory : true}];
+			if (dlt_PersonProject.getModifiedIndex().length > 0) {
+				if (valLib.validateGridView(grd_PersonProject, projectInfo)) {
+					projectFlag = true;
+				} else {
+					tac_PersonInfo.setSelectedTabIndex(2);
+					return;
+				}
+			}
+			
+			if (personFlag || familyFlag || projectFlag) {
+				comLib.confirm("변경된 사원 정보를 저장하시겠습니까?", "savePersonBasicConfirmCallback");
+			}
+		};
+		
+		scwin.savePersonBasicConfirmCallback = function() {
+			dma_PersonBasic.set("rowStatus", "U");
+			var option = {id : "sbm_SavePersonInfo"
+						, action : "person/savePersonInfo"
+						, ref : "data:json,[{'id':'dma_PersonBasic','action':'modified','key':'dataPersonBasic'},{'id':'dlt_PersonProject','action':'modified','key':'dataPersonProject'},{'id':'dlt_PersonFamily','action':'modified','key':'dataPersonFamily'}]"
+						, submitDoneHandler : "savePersonBasicCallback"
+						, isShowMeg : true };
+			ajaxLib.executeSubmission(option);	
+		};
+		
+		scwin.savePersonBasicCallback  = function(resBody) {
+			comLib.alert(resBody.result.message);
+			scwin.tabDrawStatus = { tab_PersonDetail : true, tab_PersonFamily : false, tab_PersonProject : false };
+			if (tac_PersonInfo.getSelectedTabID() !== "tab_PersonDetail") {
+				scwin.tac_PersonInfo_onchange(tac_PersonInfo.getSelectedTabID(), tac_PersonInfo.getSelectedTabIndex(), tac_PersonInfo.getSelectedTabID());
+				scwin.tabDrawStatus[tac_PersonInfo.getSelectedTabID()] = true;
+			}
+		};
+		
+		/**
+		 * 업데이트된 사원 기본 정보를 업데이트 전 상태로 되돌린다.
+		 */
+		scwin.btn_CancelPersonBasic_onclick = function(){
+			comLib.confirm("사원 정보를 변경 전 상태로 복원하시겠습니까?", "cancelPersonBasicConfirmCallback");
+		};
+		
+		scwin.cancelPersonBasicConfirmCallback = function() {
+			dma_PersonBasic.undo();
+			comLib.rollbackGridView(grd_PersonFamily);
+			comLib.rollbackGridView(grd_PersonProject);
+		};
+		
+		/**
+		 * 사원 이미지 파일을 업로드한다.
+		 */
+		scwin.btn_UploadImage_onclick = function(){
+			var options = {
+				title : "사진 업로드", width : 480, height : 200, 
+				popupParam : { closeCallbackFncName : "uploadImageFileCallback" }
+			};
+			comLib.openPopup("search_person", "/ui/HM/HM002P01.xml", options);
+		};
+		
+		scwin.uploadImageFileCallback = function(filePath) {
+			dma_PersonBasic.set("IMAGE_PATH", ajaxLib.CONTEXT_PATH + "/upload/personImage/" + filePath);
+		};
+		
+		/**
+		 * 사원 정보 탭이 변경이 발생할 때 처리 로직을 수행한다.
+		 */
+		scwin.tac_PersonInfo_onchange = function(tabID, idx, userTabID){
+			if ((userTabID === "tab_PersonFamily") && (scwin.tabDrawStatus[userTabID] === false)) {
+				var option = { id : "sbm_GetPersonFamilyList"
+							, action : "person/getPersonFamilyList"
+							, target : "data:json, {'id':'dlt_PersonFamily', 'key':'data'}"
+							, submitDoneHandler : "searchPersonFamilyCallback" };
+				ajaxLib.executeSubmission(option);
+			} else if ((userTabID === "tab_PersonProject") && (scwin.tabDrawStatus[userTabID] === false)) {
+				var option = { id : "sbm_GetPersonProjectList"
+							, action : "person/getPersonProjectList"
+							, target : "data:json, {'id':'dlt_PersonProject', 'key':'data'}"
+							, submitDoneHandler : "searchPersonProjectCallback" };
+				ajaxLib.executeSubmission(option);
+			}
+		};
+		
+		scwin.searchPersonFamilyCallback = function() {
+			scwin.tabDrawStatus.tab_PersonFamily = true;
+		};
+		
+		scwin.searchPersonProjectCallback = function() {
+			scwin.tabDrawStatus.tab_PersonProject = true;
+		};
+		
+		/** 
+		 * 가족 정보를 추가한다.
+		 */
+		scwin.btn_InsertFamily_onclick = function(){
+			var rowIndex = dlt_PersonFamily.insertRow();
+			dlt_PersonFamily.setCellData(rowIndex , "EMP_CD", dma_PersonBasic.get("EMP_CD"));
+			grd_PersonFamily.setFocusedCell(rowIndex , "RELATIONSHIP");
+		};
+		
+		/**
+		 * 가족 정보를 삭제한다.
+		 */
+		scwin.btn_DeleteFamily_onclick = function(){
+			comLib.removeGridView(grd_PersonFamily);
+		};
+		
+		/**
+		 * 프로젝트 정보를 추가한다.
+		 */
+		scwin.btn_InsertProject_onclick = function(){
+			var rowIndex = dlt_PersonProject.insertRow();
+			dlt_PersonProject.setCellData(rowIndex , "EMP_CD", dma_PersonBasic.get("EMP_CD"));
+			grd_PersonProject.setFocusedCell(rowIndex , "PROJECT_NM");
+		};
+		
+		/**
+		 * 프로젝트 정보를 삭제한다.
+		 */
+		scwin.btn_DeleteProject_onclick = function(){
+			 comLib.removeGridView(grd_PersonProject);
+		};
+
+		/**
+		 * 조직 정보를 선택할 수 있는 팝업창을 오픈한다.
+		 */
+		scwin.btn_SearchOrgan_onclick = function(e){
+			var options = {
+				title : "소속 선택", width : 500, height : 425, modal : true,
+				popupParam : { closeCallbackFncName : "searchOrganCallback" }
+			};
+			comLib.openPopup("search_organ", "/ui/HM/HM002P02.xml", options);  
+		};
+		
+		scwin.searchOrganCallback = function(returnValue) {
+			var selectedOrg = JSON.parse(returnValue);
+			dma_PersonBasic.set("ORG_CD", selectedOrg.ORG_CD);
+			dma_PersonBasic.set("ORG_NM", selectedOrg.ORG_NM);
+		};
+		
+		/**
+		 * 우편번호를 검색할 수 있는 팝업창을 오픈한다.
+		 */
+		scwin.btn_SearchZipCode_onclick = function(e){
+			var options = {
+				title : "우편번호 검색", width : 600, height : 461, modal : true,
+				popupParam : { closeCallbackFncName : "searchZipCodeCallback" }
+			};
+			comLib.openPopup("search_zipcode", "/ui/HM/HM002P03.xml", options);  
+		};
+		
+		scwin.searchZipCodeCallback = function(returnValue) {
+			var selectedZipCode = JSON.parse(returnValue);
+			dma_PersonBasic.set("ZIP_CD", selectedZipCode.ZIP_CD);
+			dma_PersonBasic.set("ADDRESS1", selectedZipCode.ADDRESS);
+			ibx_Address2.focus();
+		}; 	
+
+		]]></script>
+	</head>
+	<body>
+		<w2:pageInherit id="comPage" src="/prjtm2/cm/common/content_common.xml" style=""></w2:pageInherit>
+		<xf:group id="content_gp" style="" class="">
+			<w2:wframe id="wframe1" src="/prjtm2/cm/common/content_header.xml"></w2:wframe>
+			<xf:group class="mt5 clearfix" id="group3" style="">
+				<xf:group id="group6" style="" class="fr">
+					<w2:anchor id="btn_SavePersonBasic" style="" ev:onclick="scwin.btn_SavePersonBasic_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[저장]]></xf:label>
+					</w2:anchor>
+					<w2:anchor id="btn_CancelPersonBasic" style="" ev:onclick="scwin.btn_CancelPersonBasic_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[취소]]></xf:label>
+					</w2:anchor>
+				</xf:group>
+			</xf:group>
+			<xf:group id="grp_PersonBasic1" style="height:184px;">
+				<table id="table1" summary="" style="width:100.00%;height: 0;" class="w2tb">
+					<xf:group tagname="colgroup">
+						<xf:group style="width:160.00px;" tagname="col"></xf:group>
+						<xf:group style="width:13.90%;" tagname="col"></xf:group>
+						<xf:group style="width:19.10%;" tagname="col"></xf:group>
+						<xf:group style="width:14.11%;" tagname="col"></xf:group>
+						<xf:group style="width:18.90%;" tagname="col"></xf:group>
+						<xf:group style="width:13.18%;" tagname="col"></xf:group>
+						<xf:group style="width:19.81%;" tagname="col"></xf:group>
+					</xf:group>
+					<xf:group tagname="tr">
+						<xf:group style="" class="w2tb_td" tagname="td">
+							<w2:attributes>
+								<w2:colspan>1</w2:colspan>
+								<w2:rowspan>6</w2:rowspan>
+							</w2:attributes>
+							<xf:image id="image1" style="width:150px;height:150px;margin-left:2px;margin-bottom:3px;float:left;" src="" ref="data:dma_PersonBasic.IMAGE_PATH"></xf:image>
+							<w2:anchor class="btn_com" id="btn_UploadImage" outerDiv="" style="" ev:onclick="scwin.btn_UploadImage_onclick">
+								<xf:label><![CDATA[프로필 이미지 업로드]]></xf:label>
+							</w2:anchor>
+						</xf:group>
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">사번코드</xf:group>
+						<xf:group style="" class="w2tb_td" tagname="td">
+							<xf:input id="ibx_EmpCd" ref="data:dma_PersonBasic.EMP_CD" style="width: 95%;height: 21px;" mandatory="true"></xf:input>
+						</xf:group>
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">사원명</xf:group>
+						<xf:group style="" class="w2tb_td" tagname="td">
+							<xf:input id="ibx_EmpNm" ref="data:dma_PersonBasic.EMP_NM" style="width: 95%;height: 21px;" mandatory="true"></xf:input>
+						</xf:group>
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">입사일</xf:group>
+						<xf:group style="" class="w2tb_td" tagname="td">
+							<w2:inputCalendar id="cal_JoinDate" renderType="component" ref="data:dma_PersonBasic.JOIN_DATE" footerDiv="false" renderDiv="true"
+								calendarValueType="yearMonthDate" style="width: 100px;height: 21px;float:left;" weekStartsOn="0" focusOnDateSelect="false" mandatory="true">
+							</w2:inputCalendar>
+						</xf:group>
+					</xf:group>
+					<xf:group tagname="tr">
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">주민번호</xf:group>
+						<xf:group style="" class="w2tb_td" tagname="td">
+							<xf:input id="ibx_ResidentNo" ref="data:dma_PersonBasic.RESIDENT_NO" style="width: 95%;height: 21px;float:left;" displayFormat="" applyFormat=""
+								dataType="" maxlength="13" minlength="13" mandatory="true" disabled="" displayFormatter="strLib.maskSSNFormat2">
+							</xf:input>
+						</xf:group>
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">사원한자명</xf:group>
+						<xf:group style="" class="w2tb_td" tagname="td">
+							<xf:input id="ibx_EmpCnNm" ref="data:dma_PersonBasic.EMP_CN_NM" style="width: 95%;height: 21px;"></xf:input>
+						</xf:group>
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">입사구분</xf:group>
+						<xf:group style="" class="w2tb_td" tagname="td">
+							<xf:select1 id="sbx_JoinClass" disabledClass="w2selectbox_disabled" ref="data:dma_PersonBasic.JOIN_CLASS_CD" appearance="minimal"
+								style="width: 96%;height: 21px;" direction="auto" chooseOption="false" displayMode="label" allOption="false" submenuSize="auto" disabled="false"
+								textAlign="left">
+							</xf:select1>
+						</xf:group>
+					</xf:group>
+					<xf:group tagname="tr">
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">직위</xf:group>
+						<xf:group style="" class="w2tb_td" tagname="td">
+							<xf:select1 id="sbx_Postion" disabledClass="w2selectbox_disabled" ref="data:dma_PersonBasic.POSITION_CD" appearance="minimal" style="width: 96%;height: 21px;"
+								direction="auto" chooseOption="false" displayMode="label" allOption="false" submenuSize="auto" disabled="false" textAlign="left">
+							</xf:select1>
+						</xf:group>
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">사원영문명</xf:group>
+						<xf:group style="" class="w2tb_td" tagname="td">
+							<xf:input id="ibx_EmpEnNm" ref="data:dma_PersonBasic.EMP_EN_NM" style="width: 95%;height: 21px;" allowChar="a-zA-Z_,. -" validator=""></xf:input>
+						</xf:group>
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">최종발령일</xf:group>
+						<xf:group style="" class="w2tb_td" tagname="td">
+							<w2:inputCalendar renderType="component" id="cal_LastAppointDate" ref="data:dma_PersonBasic.LAST_APPOINT_DATE" renderDiv="true"
+								footerDiv="false" calendarValueType="yearMonthDate" style="width: 100px;height: 23px;" weekStartsOn="0" focusOnDateSelect="false">
+							</w2:inputCalendar>
+						</xf:group>
+					</xf:group>
+					<xf:group style="height:30px;" tagname="tr">
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">직책</xf:group>
+						<xf:group class="w2tb_td" tagname="td">
+							<xf:select1 id="sbx_Duty" disabledClass="w2selectbox_disabled" ref="data:dma_PersonBasic.DUTY_CD" appearance="minimal" style="width: 96%;height: 21px;"
+								direction="auto" chooseOption="false" displayMode="label" allOption="false" submenuSize="auto" disabled="false" textAlign="left">
+							</xf:select1>
+						</xf:group>
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">소속</xf:group>
+						<xf:group class="w2tb_td" tagname="td">
+							<xf:input id="ibx_OrgNm" ref="data:dma_PersonBasic.ORG_NM" style="width: 70%;height: 21px;float:left;" readOnlyClass="" readOnly="true"></xf:input>
+							<xf:image id="btn_SearchOrgan" style="width:21px;height:23px;float:left;margin-left:5px;" src="/prjtm2/images/icon_search.gif" class="btn"
+								ev:onclick="scwin.btn_SearchOrgan_onclick">
+							</xf:image>
+						</xf:group>
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">호칭변경일</xf:group>
+						<xf:group class="w2tb_td" tagname="td">
+							<w2:inputCalendar renderType="component" id="cal_PostionUpdatedDate" ref="data:dma_PersonBasic.POSITION_UPDATED_DATE" renderDiv="true"
+								footerDiv="false" calendarValueType="yearMonthDate" style="width: 100px;height: 23px;" weekStartsOn="0" focusOnDateSelect="false">
+							</w2:inputCalendar>
+						</xf:group>
+					</xf:group>
+					<xf:group style="height:30px;" tagname="tr">
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">직군</xf:group>
+						<xf:group class="w2tb_td" tagname="td">
+							<xf:select1 allOption="false" appearance="minimal" chooseOption="false" direction="auto" disabled="false" disabledClass="w2selectbox_disabled"
+								displayMode="label" id="sbx_JobFamily" ref="data:dma_PersonBasic.JOB_FAMILY_CD" style="width: 96%;height: 21px;" submenuSize="auto" textAlign="left">
+							</xf:select1>
+						</xf:group>
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">직무</xf:group>
+						<xf:group class="w2tb_td" tagname="td">
+							<xf:select1 allOption="" appearance="minimal" chooseOption="" direction="auto" disabled="false" disabledClass="w2selectbox_disabled"
+								displayMode="label" id="sbx_Job" ref="data:dma_PersonBasic.JOB_CD" style="width: 96%;height: 21px;" submenuSize="auto" textAlign="left">
+								<xf:choices>
+									<xf:itemset nodeset="data:ldt_code_24">
+										<xf:label ref="CODE_NM"></xf:label>
+										<xf:value ref="COM_CD"></xf:value>
+									</xf:itemset>
+								</xf:choices>
+							</xf:select1>
+						</xf:group>
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">담당업무</xf:group>
+						<xf:group class="w2tb_td" tagname="td">
+							<xf:input id="ibx_AssignedTask" ref="data:dma_PersonBasic.ASSIGNED_TASK" style="width: 95%;height: 21px;"></xf:input>
+						</xf:group>
+					</xf:group>
+					<xf:group style="height:30px;" tagname="tr">
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">사내직통전화</xf:group>
+						<xf:group class="w2tb_td" tagname="td">
+							<xf:input id="ibx_OfficePhone1" ref="data:dma_PersonBasic.OFFICE_PHONE1" style="width: 24px;height: 21px;margin-left:0px;" maxlength="3"
+								allowChar="0-9"></xf:input>
+							<w2:span id="span2" style="width: 100px;height: 23px;margin-left:2px;margin-top:3px;" label="-"></w2:span>
+							<xf:input id="ibx_OfficePhone2" ref="data:dma_PersonBasic.OFFICE_PHONE2" style="width: 30px;height: 21px;margin-left:2px;" maxlength="4"
+								allowChar="0-9"></xf:input>
+							<w2:span id="span3" style="width: 100px;height: 23px;margin-left:2px;" label="-"></w2:span>
+							<xf:input id="ibx_OfficePhone3" ref="data:dma_PersonBasic.OFFICE_PHONE3" style="width: 30px;height: 21px;margin-left:2px;" maxlength="4"
+								allowChar="0-9"></xf:input>
+						</xf:group>
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">휴대폰</xf:group>
+						<xf:group class="w2tb_td" tagname="td">
+							<xf:input id="ibx_CellPhone1" ref="data:dma_PersonBasic.CELL_PHONE1" style="width: 24px;height: 21px;margin-left:0px;" maxlength="3" allowChar="0-9"></xf:input>
+							<w2:span id="span4" style="width: 100px;height: 23px;margin-left:2px;margin-top:3px;" label="-"></w2:span>
+							<xf:input id="ibx_CellPhone2" ref="data:dma_PersonBasic.CELL_PHONE2" style="width: 30px;height: 21px;margin-left:2px;" maxlength="4" allowChar="0-9"></xf:input>
+							<w2:span id="span5" style="width: 100px;height: 23px;margin-left:2px;" label="-"></w2:span>
+							<xf:input id="ibx_CellPhone3" ref="data:dma_PersonBasic.CELL_PHONE3" style="width: 30px;height: 21px;margin-left:2px;" maxlength="4" allowChar="0-9"></xf:input>
+						</xf:group>
+						<xf:group style="text-align:left;" class="w2tb_th" tagname="th">이메일</xf:group>
+						<xf:group class="w2tb_td" tagname="td">
+							<xf:input id="ibx_Email" ref="data:dma_PersonBasic.EMAIL" style="width: 95%;height:21px;" validator="" invalidMessage="" isEmail="true"
+								displaymessage="" invalidMessageFunc=""></xf:input>
+						</xf:group>
+					</xf:group>
+				</table>
+			</xf:group>
+			<w2:tabControl confirmTrueAction="exist" spaIframeMaxSize="0" useTabKeyOnly="true" id="tac_PersonInfo" spaIframeMinSize="0" style="width: 100%;"
+				useConfirmMessage="false" confirmFalseAction="new" alwaysDraw="false" class="innerTabControl mt10 clearfix" ev:onchange="scwin.tac_PersonInfo_onchange">
+				<w2:tabs label="개인기본정보" id="tab_PersonDetail" style="width:100px;height:30px;" disabled="false"></w2:tabs>
+				<w2:tabs id="tab_PersonFamily" style="width:100px;height:30px;" label="가족관계정보" disabled="false"></w2:tabs>
+				<w2:tabs id="tab_PersonProject" style="width:100px;height:30px;" label="프로젝트정보" disabled="false"></w2:tabs>
+				<w2:content id="content1" style="height:100%;padding: 5px;" alwaysDraw="false" class="">
+					<xf:group id="grp_PersonBasic2" style="">
+						<table id="table2" summary="" style="width:100.00%;height: 0;padding:5px 10px 0;margin-top:0px;margin-left:0px;" class="w2tb">
+							<xf:group tagname="colgroup">
+								<xf:group style="idth:9.77%;" tagname="col"></xf:group>
+								<xf:group style="width:20.97%;" tagname="col"></xf:group>
+								<xf:group style="idth:9.77%;" tagname="col"></xf:group>
+								<xf:group style="width:23.67%;" tagname="col"></xf:group>
+								<xf:group style="width:10.85%;" tagname="col"></xf:group>
+								<xf:group style="width:22.49%;" tagname="col"></xf:group>
+							</xf:group>
+							<xf:group tagname="tr">
+								<xf:group style="" class="w2tb_th" tagname="th">자택전화</xf:group>
+								<xf:group style="" class="w2tb_td" tagname="td">
+									<xf:input id="ibx_HomePhone1" ref="data:dma_PersonBasic.HOME_PHONE1" style="width: 24px;height: 21px;margin-left:0px;" maxlength="3"
+										allowChar="0-9">
+									</xf:input>
+									<w2:span id="span6" style="width: 100px;height: 23px;margin-left:2px;margin-top:3px;" label="-"></w2:span>
+									<xf:input id="ibx_HomePhone2" ref="data:dma_PersonBasic.HOME_PHONE2" style="width: 30px;height: 21px;margin-left:2px;" maxlength="4"
+										allowChar="0-9">
+									</xf:input>
+									<w2:span id="span7" style="width: 100px;height: 23px;margin-left:2px;" label="-"></w2:span>
+									<xf:input id="ibx_HomePhone3" ref="data:dma_PersonBasic.HOME_PHONE3" style="width: 30px;height: 21px;margin-left:2px;" maxlength="4"
+										allowChar="0-9">
+									</xf:input>
+								</xf:group>
+								<xf:group style="" class="w2tb_th" tagname="th">종교</xf:group>
+								<xf:group style="" class="w2tb_td" tagname="td">
+									<xf:select1 id="sbx_Religion" disabledClass="w2selectbox_disabled" ref="data:dma_PersonBasic.RELIGION_CD" appearance="minimal"
+										style="width: 96%;height: 21px;" direction="auto" chooseOption="false" allOption="false" displayMode="label" disabled="false" submenuSize="auto"
+										textAlign="left">
+									</xf:select1>
+								</xf:group>
+								<xf:group style="" class="w2tb_th" tagname="th">주거형태</xf:group>
+								<xf:group style="" class="w2tb_td" tagname="td">
+									<xf:select1 id="sbx_HouseKind" disabledClass="w2selectbox_disabled" ref="data:dma_PersonBasic.HOUSE_KIND_CD" appearance="minimal"
+										style="width: 96%;height: 21px;" direction="auto" chooseOption="false" allOption="false" displayMode="label" disabled="false" submenuSize="auto"
+										textAlign="left">
+									</xf:select1>
+								</xf:group>
+							</xf:group>
+							<xf:group tagname="tr">
+								<xf:group style="" class="w2tb_th" tagname="th">최종학교</xf:group>
+								<xf:group style="" class="w2tb_td" tagname="td">
+									<xf:input id="ibx_LastSchoolNm" ref="data:dma_PersonBasic.LAST_SCHOOL_NM" style="width: 95%;height: 21px;"></xf:input>
+								</xf:group>
+								<xf:group style="" class="w2tb_th" tagname="th">전공</xf:group>
+								<xf:group style="" class="w2tb_td" tagname="td">
+									<xf:input id="ibx_MajorNm" ref="data:dma_PersonBasic.MAJOR_NM" style="width: 95%;height: 21px;"></xf:input>
+								</xf:group>
+								<xf:group style="" class="w2tb_th" tagname="th">입사학력</xf:group>
+								<xf:group style="" class="w2tb_td" tagname="td">
+									<xf:select1 id="sbx_SchoolCareer" disabledClass="w2selectbox_disabled" ref="data:dma_PersonBasic.SCHOOL_CAREER_CD" appearance="minimal"
+										style="width: 96%;height: 21px;" direction="auto" chooseOption="false" allOption="false" displayMode="label" disabled="false" submenuSize="auto"
+										textAlign="left">
+									</xf:select1>
+								</xf:group>
+							</xf:group>
+							<xf:group tagname="tr">
+								<xf:group style="" class="w2tb_th" tagname="th">보훈대상여부</xf:group>
+								<xf:group style="" class="w2tb_td" tagname="td">
+									<xf:select1 id="sbx_IsVeteranWelfare" disabledClass="w2selectbox_disabled" ref="data:dma_PersonBasic.IS_VETERAN_WELFARE" appearance="minimal"
+										style="width: 96%;height: 21px;" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto" textAlign="left">
+										<xf:choices>
+											<xf:item>
+												<xf:label><![CDATA[예]]></xf:label>
+												<xf:value><![CDATA[Y]]></xf:value>
+											</xf:item>
+											<xf:item>
+												<xf:label><![CDATA[아니오]]></xf:label>
+												<xf:value><![CDATA[N]]></xf:value>
+											</xf:item>
+										</xf:choices>
+									</xf:select1>
+								</xf:group>
+								<xf:group style="" class="w2tb_th" tagname="th">군필여부</xf:group>
+								<xf:group style="" class="w2tb_td" tagname="td">
+									<xf:select1 id="sbx_IsMilitaryService" disabledClass="w2selectbox_disabled" ref="data:dma_PersonBasic.IS_MILITARY_SERVICE" appearance="minimal"
+										style="width: 96%;height: 21px;" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto" textAlign="left">
+										<xf:choices>
+											<xf:item>
+												<xf:label><![CDATA[예]]></xf:label>
+												<xf:value><![CDATA[Y]]></xf:value>
+											</xf:item>
+											<xf:item>
+												<xf:label><![CDATA[아니오]]></xf:label>
+												<xf:value><![CDATA[N]]></xf:value>
+											</xf:item>
+										</xf:choices>
+									</xf:select1>
+								</xf:group>
+								<xf:group style="" class="w2tb_th" tagname="th">휴퇴직사유</xf:group>
+								<xf:group style="" class="w2tb_td" tagname="td">
+									<xf:input id="ibx_RetireReason" ref="data:dma_PersonBasic.RETIRE_REASON" style="width: 95%;height: 21px;"></xf:input>
+								</xf:group>
+							</xf:group>
+							<xf:group style="height:30px;" tagname="tr">
+								<xf:group class="w2tb_th" tagname="th">생년월일</xf:group>
+								<xf:group class="w2tb_td" tagname="td">
+									<w2:inputCalendar calendarValueType="yearMonthDate" focusOnDateSelect="false" footerDiv="false" id="cal_BirthDate" ref="data:dma_PersonBasic.BIRTH_DATE"
+										renderDiv="true" renderType="component" style="width: 100px;height: 23px;" weekStartsOn="0" minYear="">
+									</w2:inputCalendar>
+									<xf:select1 id="sbx_IsLunar" disabledClass="w2selectbox_disabled" ref="data:dma_PersonBasic.IS_LUNAR" appearance="minimal"
+										style="width:18.250923%;height:21px;margin-left:4px;" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto"
+										textAlign="left">
+										<xf:choices>
+											<xf:item>
+												<xf:label><![CDATA[양]]></xf:label>
+												<xf:value><![CDATA[1]]></xf:value>
+											</xf:item>
+											<xf:item>
+												<xf:label><![CDATA[음]]></xf:label>
+												<xf:value><![CDATA[2]]></xf:value>
+											</xf:item>
+										</xf:choices>
+									</xf:select1>
+
+								</xf:group>
+								<xf:group class="w2tb_th" tagname="th">결혼여부</xf:group>
+								<xf:group class="w2tb_td" tagname="td">
+									<xf:select1 id="sbx_IsMarriage" disabledClass="w2selectbox_disabled" ref="data:dma_PersonBasic.IS_MARRIAGE" appearance="minimal"
+										style="width: 96%;height: 21px;" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto" textAlign="left">
+										<xf:choices>
+											<xf:item>
+												<xf:label><![CDATA[예]]></xf:label>
+												<xf:value><![CDATA[Y]]></xf:value>
+											</xf:item>
+											<xf:item>
+												<xf:label><![CDATA[아니오]]></xf:label>
+												<xf:value><![CDATA[N]]></xf:value>
+											</xf:item>
+										</xf:choices>
+									</xf:select1>
+								</xf:group>
+								<xf:group class="w2tb_th" tagname="th">취미</xf:group>
+								<xf:group class="w2tb_td" tagname="td">
+									<xf:input id="ibx_Hoppy" ref="data:dma_PersonBasic.HOPPY" style="width: 95%;height: 21px;"></xf:input>
+								</xf:group>
+							</xf:group>
+							<xf:group style="height:30px;" tagname="tr">
+								<xf:group class="w2tb_th" tagname="th">특기</xf:group>
+								<xf:group class="w2tb_td" tagname="td">
+									<xf:input id="ibx_Talent" ref="data:dma_PersonBasic.TALENT" style="width: 95%;height: 21px;"></xf:input>
+								</xf:group>
+								<xf:group class="w2tb_th" tagname="th">주소</xf:group>
+								<xf:group class="w2tb_td" tagname="td">
+									<w2:attributes>
+										<w2:colspan>3</w2:colspan>
+										<w2:rowspan>1</w2:rowspan>
+									</w2:attributes>
+									<xf:input id="ibx_ZipCd" ref="data:dma_PersonBasic.ZIP_CD" style="width:8%;height:21px;" displayFormat="###-###"></xf:input>
+									<xf:image id="btn_SearchZipCode" src="/prjtm2/images/icon_search.gif" style="width:21px;height:23px;margin-left:5px;" class="btn" longdesc=""
+										ev:onclick="scwin.btn_SearchZipCode_onclick">
+										<script ev:event="onclick" type="javascript"><![CDATA[ 
+											scwin.searchZipCode();
+										]]></script>
+									</xf:image>
+									<xf:input id="ibx_Address1" ref="data:dma_PersonBasic.ADDRESS1" style="width:40%;height:21px;margin-left:5px;"></xf:input>
+									<xf:input id='ibx_Address2' ref="data:dma_PersonBasic.ADDRESS2" style="width:40%;height:21px;margin-left:5px;"></xf:input>
+								</xf:group>
+							</xf:group>
+						</table>
+					</xf:group>
+				</w2:content>
+				<w2:content id="content2" style="height:100%;padding: 5px;" alwaysDraw="false">
+					<xf:group class="mt5 clearfix" id="group4" style="">
+						<xf:group id="group7" style="" class="fr">
+							<w2:anchor id="btn_InsertFamily" style="" ev:onclick="scwin.btn_InsertFamily_onclick" class="btn_com" outerDiv="">
+								<xf:label><![CDATA[등록]]></xf:label>
+							</w2:anchor>
+							<w2:anchor id="btn_DeleteFamily" style="" ev:onclick="scwin.btn_DeleteFamily_onclick" class="btn_com" outerDiv="">
+								<xf:label><![CDATA[삭제]]></xf:label>
+							</w2:anchor>
+						</xf:group>
+					</xf:group>
+					<w2:gridView dataList="dlt_PersonFamily" scrollByColumn="false" id="grd_PersonFamily" style="width: 100%;height: 100px;" fixedColumnWithHidden="true"
+						useShiftKey="false" autoFit="allColumn" visibleRowNum="10" rowStatusVisible="true" rowStatusHeaderValue="상태" keyMoveEditMode="true" enterKeyMove=""
+						hideHeader="" keepDefaultColumnWidth="true" rowStatusWidth="40">
+						<w2:header id="header1" style="">
+							<w2:row id="row1" style="">
+								<w2:column blockSelect="false" id="chkHeader" style="height:20px" inputType="checkbox" width="47" value="CHK"></w2:column>
+								<w2:column blockSelect="false" id="column11" style="height:20px" inputType="text" width="70" value="관계"></w2:column>
+								<w2:column blockSelect="false" id="column9" style="height:20px" inputType="text" width="95" value="가족성명"></w2:column>
+								<w2:column blockSelect="false" id="column7" style="height:20px" inputType="text" width="142" value="주민번호"></w2:column>
+								<w2:column blockSelect="false" id="column5" style="height:20px" inputType="text" width="148" value="직업"></w2:column>
+								<w2:column blockSelect="false" id="column3" style="height:20px" inputType="text" width="70" value="동거여부"></w2:column>
+								<w2:column blockSelect="false" id="column1" style="height:20px" width="70" inputType="text" value="부양여부"></w2:column>
+							</w2:row>
+						</w2:header>
+						<w2:gBody id="gBody1" style="">
+							<w2:row id="row2" style="">
+								<w2:column blockSelect="false" id="CHK" style="height:20px" inputType="checkbox" width="47" viewType=""></w2:column>
+								<w2:column blockSelect="false" id="RELATIONSHIP" style="height:20px" inputType="text" width="70"></w2:column>
+								<w2:column blockSelect="false" id="FAMILY_NM" style="height:20px" inputType="text" width="95"></w2:column>
+								<w2:column blockSelect="false" id="RESIDENT_NO" style="height:20px" inputType="text" width="142" displayFormat="" maxlength="13"
+									displayFormatter="strLib.maskSSNFormat2" depthType="" monthNames="" maxLength="13">
+								</w2:column>
+								<w2:column blockSelect="false" id="JOB" style="height:20px" inputType="text" width="148"></w2:column>
+								<w2:column blockSelect="false" id="IS_CORESIDENCE" style="height:20px" inputType="select" width="70" allOption="" chooseOption="">
+									<w2:choices>
+										<w2:item>
+											<w2:label><![CDATA[예]]></w2:label>
+											<w2:value><![CDATA[Y]]></w2:value>
+										</w2:item>
+										<w2:item>
+											<w2:label><![CDATA[아니오]]></w2:label>
+											<w2:value><![CDATA[N]]></w2:value>
+										</w2:item>
+									</w2:choices>
+								</w2:column>
+								<w2:column blockSelect="false" id="IS_SUPPORT" style="height:20px" width="70" inputType="select" allOption="" chooseOption="">
+									<w2:choices>
+										<w2:item>
+											<w2:label><![CDATA[예]]></w2:label>
+											<w2:value><![CDATA[Y]]></w2:value>
+										</w2:item>
+										<w2:item>
+											<w2:label><![CDATA[아니오]]></w2:label>
+											<w2:value><![CDATA[N]]></w2:value>
+										</w2:item>
+									</w2:choices>
+								</w2:column>
+							</w2:row>
+						</w2:gBody>
+					</w2:gridView>
+				</w2:content>
+				<w2:content id="content3" style="height:100%;padding: 5px;" alwaysDraw="false">
+					<xf:group class="mt5 clearfix" id="group5" style="">
+						<xf:group id="group8" style="" class="fr">
+							<w2:anchor id="btn_InsertProject" style="" ev:onclick="scwin.btn_InsertProject_onclick" class="btn_com" outerDiv="">
+								<xf:label><![CDATA[등록]]></xf:label>
+							</w2:anchor>
+							<w2:anchor id="btn_DeleteProject" style="" ev:onclick="scwin.btn_DeleteProject_onclick" class="btn_com" outerDiv="">
+								<xf:label><![CDATA[삭제]]></xf:label>
+							</w2:anchor>
+						</xf:group>
+					</xf:group>
+					<w2:gridView dataList="dlt_PersonProject" scrollByColumn="false" id="grd_PersonProject" style="width: 100%;height: 100px;"
+						fixedColumnWithHidden="true" useShiftKey="false" autoFit="allColumn" visibleRowNum="10" keyMoveEditMode="true" rowStatusVisible="true"
+						rowStatusHeaderValue="상태" keepDefaultColumnWidth="true" rowStatusWidth="40">
+						<w2:header id="header2" style="">
+							<w2:row id="row3" style="">
+								<w2:column blockSelect="false" id="chkHeader" style="height:20px" inputType="checkbox" width="47" value="CHK"></w2:column>
+								<w2:column blockSelect="false" id="column29" style="height:20px" inputType="text" width="172" value="프로젝트명"></w2:column>
+								<w2:column blockSelect="false" id="column27" style="height:20px" inputType="text" width="228" value="프로젝트 개요"></w2:column>
+								<w2:column blockSelect="false" id="column25" style="height:20px" inputType="text" width="87" value="참여시작기간"></w2:column>
+								<w2:column blockSelect="false" id="column23" style="height:20px" inputType="text" width="84" value="참여종료기간"></w2:column>
+								<w2:column blockSelect="false" id="column21" style="height:20px" inputType="text" width="124" value="담당업무"></w2:column>
+								<w2:column blockSelect="false" id="column19" style="height:20px" inputType="text" width="119" value="발주처"></w2:column>
+								<w2:column blockSelect="false" id="column17" style="height:20px" inputType="text" width="124" value="소속사"></w2:column>
+								<w2:column blockSelect="false" id="column15" style="height:20px" width="161" inputType="text" value="비고"></w2:column>
+							</w2:row>
+						</w2:header>
+						<w2:gBody id="gBody2" style="">
+							<w2:row id="row4" style="">
+								<w2:column blockSelect="false" id="CHK" style="height:20px" inputType="checkbox" width="47"></w2:column>
+								<w2:column blockSelect="false" id="PROJECT_NM" style="height:20px" inputType="text" width="172"></w2:column>
+								<w2:column blockSelect="false" id="PROJECT_DESC" style="height:20px" inputType="text" width="228"></w2:column>
+								<w2:column blockSelect="false" id="START_DATE" style="height:20px" inputType="calendar" width="87"></w2:column>
+								<w2:column blockSelect="false" id="END_DATE" style="height:20px" inputType="calendar" width="84"></w2:column>
+								<w2:column blockSelect="false" id="ASSIGNED_TASK" style="height:20px" inputType="text" width="124"></w2:column>
+								<w2:column blockSelect="false" id="ORDERING_ORG" style="height:20px" inputType="text" width="119"></w2:column>
+								<w2:column blockSelect="false" id="COMPANY" style="height:20px" inputType="text" width="124"></w2:column>
+								<w2:column blockSelect="false" id="NOTE" style="height:20px" width="161" inputType="text"></w2:column>
+							</w2:row>
+						</w2:gBody>
+					</w2:gridView>
+				</w2:content>
+			</w2:tabControl>
+		</xf:group>
+	</body>
+</html>

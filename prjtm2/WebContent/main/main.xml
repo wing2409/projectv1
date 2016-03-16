@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><?xml-stylesheet href="/prjtm2/cm/css/common.css" type="text/css"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<title>웹스퀘어5 템플릿 프로젝트</title>
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection>
+				<w2:dataList baseNode="vector" id="dlt_LeftMenuList" repeatNode="data" style="" valueAttribute="">
+					<w2:columnInfo>
+						<w2:column dataType="text" id="MENU_CD" name="메뉴코드" />
+						<w2:column dataType="text" id="MENU_NM" name="메뉴명" />
+						<w2:column dataType="text" id="PARENT_MENU_CD" name="부모메뉴코드" />
+						<w2:column dataType="number" id="MENU_LEVEL" name="메뉴레벨" />
+						<w2:column dataType="number" id="SORT_ORDER" name="메뉴정렬순서" />
+						<w2:column dataType="text" id="SRC_PATH" name="프로그램소스경로" />
+						<w2:column dataType="number" id="IS_USE" name="사용여부" />
+						<w2:column dataType="text" id="NOTE" name="비고" />
+					</w2:columnInfo>
+					<w2:data use="false">
+					</w2:data>
+				</w2:dataList>
+			</w2:dataCollection>
+		</xf:model>
+		<script type="javascript"><![CDATA[
+		
+		/**
+		 * main 화면의 공통 변수를 선언한다.
+		 */
+		scwin.grobalVal = {
+			selectedTreeIndex : "1",
+			myMenuIdx : 0,
+			winTitle : "",
+			winId : "" 
+		};
+		
+		/**
+		 * 메인 화면 초기화를 수행한다.
+		 */
+		scwin.initScreen = function() {
+			scwin.loginCheck();
+			// 로그인 시간 타이머 설정한다.
+			$w.setInterval(scwin.clock, {
+				"key" : "interval1",
+				"delay" : 1000, 
+				"caller" : tbx_time
+				//, "callback" : intervalCallBack
+			});
+		};
+		
+		/**
+		 * 로그인 체크를 수행한다.
+		 */
+		scwin.loginCheck = function() {
+			var option = { id : "sbm_IsLogin"
+						, action : "loginout/isLogin"
+						, submitDoneHandler : "loginCheckCallBack" };
+			ajaxLib.executeSubmission(option);
+		};
+		
+		/**
+		 * 로그인 체크 콜백 로직을 수행한다.
+		 */
+		scwin.loginCheckCallBack = function(resBody) {
+			if (resBody.result.status === comLib.STATUS_SUCCESS) {
+				comLib.getAllCode();
+				scwin.setLeftMenuList();
+				tbx_loginNm.setValue(resBody.data.EMP_NM);
+				tbx_ResultMessage.setValue("정상 로그인되었습니다.");
+			} else {
+				// TODO :: TabControl를 SPA 모드로 사용 시, spaIframeMinSize의 크기에 따라서 setTimeout를 이용해서 $w.url() 함수를 호출해야 한다.
+				// 현재 websquare.jsp 파일에서 웹스퀘어 엔진을 실행하기 전에 세션 체크를 하기 때문에 
+				// 서버측 로직에 문제가 있는 경우가 아니라면 아래의 로직이 수행될 경우는 거의 없다.
+				// $w.url(ajaxLib.CONTEXT_PATH + "/cm/ui/login.xml", {"spa" : false, "replaceHistory" : true});
+				$w.setTimeout( function() { $w.url(ajaxLib.CONTEXT_PATH + "/main/login.xml", {"spa" : true, "replaceHistory" : true}); },
+					{ "key" : "interval1",
+					  "delay" : 1000 }
+				);
+				
+			}
+		};
+		
+		/**
+		 * 로그아웃 처리를 수행한다.
+		 */
+		scwin.logout = function() {
+			var option = { id : "sbm_Logout"
+						, action : "loginout/logout"
+						, submitDoneHandler : "logoutCallBack" };
+			ajaxLib.executeSubmission(option);
+		};
+		
+		/**
+		 * 로그아웃 처리 콜백 로직을 수행한다.
+		 */
+		scwin.logoutCallBack = function(resBody) {
+			if (resBody.result.status === comLib.STATUS_SUCCESS) {
+				$w.url(ajaxLib.CONTEXT_PATH + "/main/login.xml", {"spa" : true, "replaceHistory" : true});
+			} else {
+				alert(resBody.result.message);
+			}
+		};
+		
+		/**
+		 * 좌측 메뉴 데이터를 요청한다.
+		 */
+		scwin.setLeftMenuList = function() {
+			var option = { id : "sbm_GetPersonMenuList"
+						, action : "menu/getPersonMenuList"
+						, target : "data:json, {'id':'dlt_LeftMenuList', 'key':'data'}" };
+			ajaxLib.executeSubmission(option);
+		};
+		 
+		/**
+		 * 좌측 트리메뉴 토글처리.
+		 */
+		scwin.leftMenuDisplay = function() {  
+
+		};
+		
+		/**
+		 * 좌측 트리메뉴를 오픈한다.
+		 */
+		scwin.openSlide = function(){
+			if(side.getSize( "width" ) <= 0){
+				btn_slide.removeClass("hide");
+				side.setStyle( "width" , "220px" );
+				side.setStyle( "overflow" , "visibie" );
+				btn_slide.setStyle( "left" , "220px" );
+				bodyContent.setStyle( "left" , "230px" );
+			} 
+		};
+		
+		/**
+		 * 좌측 트리메뉴를 숨긴다.
+		 */
+		scwin.closeSlide = function() {
+		   if (!btn_pin.hasClass("pinlock") && side.getSize( "width" ) > 10) {
+			   btn_slide.addClass("hide");
+			   side.setStyle("width", "0");
+			   side.setStyle("overflow", "hidden");
+			   btn_slide.setStyle("left", "0" );
+			   bodyContent.setStyle("left", "10px");
+		   } 
+		};
+		
+		/**
+		 * 메뉴 토글 함수
+		 */
+		scwin.openTreeMenu = function(tree, index) {
+			var node = tree.findNodeByIndex(index);
+			var value = node.value;
+			var parentValue = tree.getParentValue( value );
+			
+			var selectedIdx = scwin.grobalVal.selectedTreeIndex;
+			var selectedNode = tree.findNodeByIndex(selectedIdx);
+			var selectedValue = selectedNode.value; 
+			 
+			// 트리 최상위 메뉴 
+			if ( !tree.isLeaf() &&  parentValue == "" ){ 
+				if( selectedValue != value ){
+					tree.collapseNode( selectedValue );
+				}
+				//tree.expandNode(value);
+				scwin.grobalVal.selectedTreeIndex = index;
+			}
+			
+			// 트리 메뉴 선택시, 화면 오픈.
+			else if ( tree.isLeaf() ){
+				var srcPath = WebSquare.xml.getValue(node.element, "SRC_PATH");
+				scwin.openWindow(node.label, srcPath,  node.value);
+			}
+		};
+		
+		/**
+		 * 마이메뉴 추가.
+		 */ 
+		scwin.setMyMenu = function(menuId) {
+			/*
+			var myNode = trv_LeftMenu.findNode( menuId , false );
+			if (myNode != null){
+				if( scwin.grobalVal.myMenuIdx == 0 ){
+					var parentNode = trv_leftMyMenu.findNodeByIndex(0); // 최상위 노
+					var xmlStr = "<map>"+
+								"<MYMENU_ID>MyMenu</MYMENU_ID>"+
+								"<MYMENU_NM>MyMenu</MYMENU_NM>"+
+								"<MYLEVEL_CNT>1</MYLEVEL_CNT>"+
+								"<MYSRC_PATH></MYSRC_PATH>"+
+								"</map>";
+						
+					var xmlDoc = WebSquare.xml.parse(xmlStr);
+					var xmlNodeList = WebSquare.xml.findNodes(xmlDoc,"/map");	
+					trv_leftMyMenu.appendXmlNodes(parentNode, xmlNodeList);	
+					WebSquare.ModelUtil.setInstanceNode( xmlDoc , "myMenu" , null , "append" );
+					scwin.grobalVal.myMenuIdx++;
+				}
+				
+				var parentNode = trv_leftMyMenu.findNodeByIndex(1); 
+				var xmlStr = "<map>"+
+								"<MYMENU_ID>"+myNode.value+"</MYMENU_ID>"+
+								"<MYMENU_NM>"+myNode.label+"</MYMENU_NM>"+
+								"<MYLEVEL_CNT>2</MYLEVEL_CNT>"+
+								"<MYSRC_PATH>"+WebSquare.xml.getValue(myNode.element, "SRC_PATH")+"</MYSRC_PATH>"+
+							"</map>";
+				//console.log(xmlStr);
+				var xmlDoc = WebSquare.xml.parse(xmlStr);
+				var xmlNodeList = WebSquare.xml.findNodes(xmlDoc,"/map");
+				trv_leftMyMenu.appendXmlNodes(parentNode, xmlNodeList);
+				WebSquare.ModelUtil.setInstanceNode( xmlDoc , "myMenu" , null , "append" );
+			  } else {
+				  comLib.alert('해당 메뉴가 없어 추가할 수 없습니다.');
+			  }
+			  */
+		};
+		
+		// 마이메뉴 선택.
+		scwin.selectLeftMyMenu = function(myMenuTree, index) {
+			/*
+			var myNode = myMenuTree.findNodeByIndex( index );
+			if ( myMenuTree.isLeaf() ){
+				var srcPath = WebSquare.xml.getValue( myNode.element, "MYSRC_PATH" );
+				scwin.openWindow(myNode.label, srcPath, myNode.value);
+			}
+			*/
+		};
+		
+		// tabControl에 업무 화면 열기.
+		scwin.openWindow = function(tabTitle, srcPath, winId) {
+			if( srcPath == "" ){
+				comLib.alert('해당 화면이 없습니다.');
+			}
+			else {
+				var tabOptions = {
+					label : tabTitle,
+					closable : "true"
+				};
+				
+				var contentsOptions = {
+					frameMode : "iframe",
+					src : ajaxLib.CONTEXT_PATH + srcPath
+				};
+				tac_Main.addTab(tabTitle, tabOptions, contentsOptions);
+				
+				var tabidx = tac_Main.getTabIndex(tabTitle);
+				tac_Main.setSelectedTabIndex(tabidx);
+			}
+		};
+		
+		// window 개별 화면 닫기.
+		scwin.closeIndividWindow = function(winTitle) {
+			if(win_main.currentWindowNum == 1) { // 현재 window 화면 갯수.
+				backMain.show();
+			}
+			return true;
+		};
+		
+		// 각 화면의 wframe title 값 조정. 
+		scwin.setParentMenuTitle = function() {
+			var win = win_main.getWindowByWindowId(scwin.grobalVal.winId);
+			if(typeof win.txt_title !== "undefined") {
+				win.txt_title.setValue(scwin.grobalVal.winTitle);
+			}
+		};
+		
+		scwin.getOpenerMenuTitle = function() {
+			return scwin.grobalVal.winTitle;
+		};
+		
+		scwin.clock = function() {
+			var now = new Date();
+			var currDateTime = now.toLocaleString();
+			this.setValue(currDateTime);
+		};
+		
+
+		scwin.textbox2_onclick = function(e) {
+			scwin.logout();
+		};
+	
+		scwin.btn_TopMenu1_onclick = function() {
+			scwin.openTreeMenu(trv_LeftMenu, 2);
+		};
+	
+		scwin.btn_TopMenu2_onclick = function() {
+			scwin.openTreeMenu(trv_LeftMenu, 3);
+		};
+	
+		scwin.btn_TopMenu3_onclick = function() {
+			scwin.openTreeMenu(trv_LeftMenu, 4);
+		};
+	
+		scwin.btn_TopMenu4_onclick = function() {
+			scwin.openTreeMenu(trv_LeftMenu, 6);
+		};
+	
+		scwin.btn_TopMenu5_onclick = function() {
+			scwin.openTreeMenu(trv_LeftMenu, 7);
+		};
+	
+		scwin.trv_LeftMenu_onlabelclick = function(value, nodeElement, index) {
+			scwin.openTreeMenu(this, index);
+		};
+	
+		scwin.trv_LeftMenu_ontoggleclick = function(nodeElement, index, isRendered) {
+			scwin.openTreeMenu(this, index);
+		};
+	
+		scwin.btnAddMymenu_onclick = function() {
+			var menuId = inpMyMenuId.getValue() || win_main.getSelectedWindowId();
+			scwin.setMyMenu(menuId);
+		};
+	
+		scwin.trv_leftMyMenu_onlabelclick = function(value, nodeElement, index) {
+			scwin.selectLeftMyMenu(this, index);
+		};
+	
+		scwin.lnb_tabc_ontabclick = function() {
+			if (lnb_tabc.getSelectedTabIndex() == 1)
+				trv_leftMyMenu.refreshItemset();
+		};
+	
+		scwin.btn_pin_onclick = function() {
+			btn_pin.toggleClass("pinlock");
+			var btnPinDisabled = (btn_pin.hasClass("pinlock")) ? true : false;
+			btn_slide.setDisabled(btnPinDisabled);
+		};
+	
+		scwin.btn_slide_onclick = function() {
+			if (side.getSize( "width" )>50) {
+				scwin.closeSlide();
+			} else {
+				scwin.openSlide();
+			}
+		};
+		
+		if (scwin.initStatus) {
+			scwin.initScreen();
+		}
+
+]]></script>
+	</head>
+	<body>
+		<w2:pageInherit id="comPage" src="/prjtm2/cm/common/content_common.xml" style="" />
+		<xf:group class="" id="content_wrap" style="">
+			<xf:group class="" id="header" style="">
+				<xf:group class="fl" id="header_logo" style="">
+				</xf:group>
+				<xf:group class="" id="header_grp" style="">
+					<xf:group class="" id="header_nav" style="">
+						<w2:textbox class="txt_nav" ev:onclick="scwin.textbox2_onclick" id="textbox2" label="[로그아웃]" style="margin-right:20px;" tagname="a">
+							<w2:attributes>
+								<w2:href>#</w2:href>
+							</w2:attributes>
+
+						</w2:textbox>
+
+					</xf:group>
+					<xf:group class="" id="header_menu" style="">
+						<xf:group class="header_left" id="header_bg_left" style="" />
+						<xf:group class="header_m_grp" id="header_m_grp" style="">
+							<xf:group class="gnb_grp" id="header_topMenu" style="display: inline-block;height: 40px;line-height: 40px;">
+								<w2:anchor class="gnb" ev:onclick="scwin.btn_TopMenu1_onclick" id="btn_TopMenu1" outerDiv="false" style="">
+									<xf:label>공통코드관리</xf:label>
+								</w2:anchor>
+								<w2:anchor class="gnb" ev:onclick="scwin.btn_TopMenu2_onclick" id="btn_TopMenu2" outerDiv="false" style="">
+									<xf:label>권한관리</xf:label>
+								</w2:anchor>
+								<w2:anchor class="gnb" ev:onclick="scwin.btn_TopMenu3_onclick" id="btn_TopMenu3" outerDiv="false" style="">
+									<xf:label>메뉴관리</xf:label>
+								</w2:anchor>
+								<w2:anchor class="gnb" ev:onclick="scwin.btn_TopMenu4_onclick" id="btn_TopMenu4" outerDiv="false" style="">
+									<xf:label>조직기본관리</xf:label>
+								</w2:anchor>
+								<w2:anchor class="gnb bgn" ev:onclick="scwin.btn_TopMenu5_onclick" id="btn_TopMenu5" outerDiv="false" style="">
+									<xf:label>인사기본관리</xf:label>
+								</w2:anchor>
+							</xf:group>
+						</xf:group>
+						<xf:group class="header_right" id="header_bg_right" style="">
+						</xf:group>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+			<xf:group class="" id="container" style="">
+				<xf:group class="" id="side" style="">
+					<w2:tabControl alwaysDraw="true" class="lnb_tabc" confirmFalseAction="&quot;new&quot;" confirmTrueAction="&quot;exist&quot;" ev:ontabclick="scwin.lnb_tabc_ontabclick"
+						id="lnb_tabc" selectedIndex="0" style="width:100%;" useConfirmMessage="false" useTabKeyOnly="true">
+						<w2:tabs disabled="false" id="tabs1" label="MENU" style="margin-left: -20px;z-index:1;" />
+						<w2:tabs disabled="" id="tabs2" label="MY MENU" style="margin-left:-20px;display:none;" />
+						<w2:content alwaysDraw="true" id="content1" style="position: absolute;bottom: 33px;top: 30px;left: 0;right: 0;border-top:1px solid #36445c;">
+							<w2:treeview alwaysDraw="true" class="trw" dataType="listed" ev:onlabelclick="scwin.trv_LeftMenu_onlabelclick" ev:ontoggleclick="scwin.trv_LeftMenu_ontoggleclick"
+								id="trv_LeftMenu" showTreeDepth="1" style="position: absolute;bottom: 33px;top: 0;left: 0;right: 0;border: 1px solid #afadac;border-top:0px;"
+								toggleEvent="onclick">
+								<w2:itemset nodeset="data:dlt_LeftMenuList">
+									<w2:label ref="MENU_NM" />
+									<w2:value ref="MENU_CD" />
+									<w2:depth ref="MENU_LEVEL" />
+									<w2:folder ref="" />
+									<w2:checkbox ref="" />
+									<w2:checkboxDisabled ref="" />
+									<w2:image ref="" />
+									<w2:iconImage ref="" />
+									<w2:selectedImage ref="" />
+									<w2:expandedImage ref="" />
+									<w2:leafImage ref="" />
+								</w2:itemset>
+							</w2:treeview>
+						</w2:content>
+						<w2:content alwaysDraw="true" id="content2" style="position: absolute;bottom: 33px;top: 30px;left: 0;right: 0;border-top:1px solid #36445c;">
+							<xf:group id="grpMyMenuAll" style="padding-left:40px;padding-top:5px;height:50px;border: 1px solid #afadac;border-top:0px;background: whitesmoke;">
+								<xf:group class="ofh mb5" id="group1" style="width:143px;">
+									<w2:anchor class="btn_gray" ev:onclick="scwin.btnAddMymenu_onclick" id="btnAddMymenu" style="">
+										<xf:label>메뉴추가</xf:label>
+
+									</w2:anchor>
+									<w2:anchor class="btn_gray ml2 " id="btnMngMymenu" style="">
+										<xf:label>메뉴관리</xf:label>
+									</w2:anchor>
+								</xf:group>
+								<xf:input class="inp" disabled="" id="inpMyMenuId" readOnly="" style="width:132px;margin:0 auto;" />
+							</xf:group>
+							<w2:treeview alwaysDraw="true" class="trw" dataType="listed" dynamicAppend="true" ev:onlabelclick="scwin.trv_leftMyMenu_onlabelclick" id="trv_leftMyMenu"
+								style="position: absolute;bottom: 33px;top:55px;left: 0;right: 0;border: 1px solid #afadac;border-top:1px solid #0881ca;" toggleEvent="onclick">
+
+								<w2:itemset nodeset="myMenu/map">
+									<w2:label ref="MYMENU_NM" />
+									<w2:value ref="MYMENU_ID" />
+									<w2:depth ref="MYLEVEL_CNT" />
+									<w2:folder ref="" />
+									<w2:checkbox ref="" />
+									<w2:checkboxDisabled ref="" />
+									<w2:image ref="" />
+									<w2:iconImage ref="" />
+									<w2:selectedImage ref="" />
+									<w2:expandedImage ref="" />
+									<w2:leafImage ref="" />
+								</w2:itemset>
+							</w2:treeview>
+						</w2:content>
+
+
+					</w2:tabControl>
+					<w2:anchor class="btn_pin" disabled="" ev:onclick="scwin.btn_pin_onclick" id="btn_pin" outerDiv="false" style="">
+						<xf:label />
+
+					</w2:anchor>
+				</xf:group>
+				<w2:anchor class="" disabled="" ev:onclick="scwin.btn_slide_onclick" id="btn_slide" outerDiv="false" style="">
+					<xf:label />
+
+				</w2:anchor>
+				<xf:group class="" id="bodyContent" style="">
+					<w2:tabControl alwaysDraw="false" class="mainTabc" confirmFalseAction="new" confirmTrueAction="exist" id="tac_Main" spaInitCount="0"
+						style="width: 100%;height:100%;" tabScroll="true" useConfirmMessage="false" useTabKeyOnly="false" windowMaxNum="10" title="">
+					</w2:tabControl>
+				</xf:group>
+			</xf:group>
+
+			<xf:group class="" id="footer_grp" style="height: 24px;border-top:1px solid grey;background:whitesmoke;margin:0;padding:0;">
+				<xf:group class="" id="grp_btns" style="" />
+				<xf:group class="" id="group2" style="position: absolute ;height:14px;left: 5px;bottom: 5px;">
+					<xf:image class="fl mr5" id="image211" src="/prjtm2/images/icon_main_search.png" style="" />
+					<xf:group class="fl" id="ft_cntGrp" style="position:relative;display:none;">
+						<w2:textbox class="fl mr5" id="ft_scrNm" label="P_000123" style="font-weight: bold;color: #262626;font-family: Apple SD Gothic NEO;">
+						</w2:textbox>
+						<w2:textbox class="fl mr5" id="textbox4" label=" : 총 " style="color: #535f6e;font-family: Apple SD Gothic NEO;">
+						</w2:textbox>
+						<w2:textbox class="fl mr5" id="ft_cnt" label="0" style="color: #f7951e;font-weight:bold;font-family: Apple SD Gothic NEO;">
+						</w2:textbox>
+					</xf:group>
+					<w2:textbox class="fl mr5" id="tbx_ResultMessage" label="건이 조회되었습니다." style="color: #535f6e;font-family: Apple SD Gothic NEO;" />
+					<xf:image class="fl mr5 ml15" id="image212" src="/prjtm2/images/icon_main_lock.png" style="" />
+					<w2:textbox class="fl" id="tbx_loginNm" label="접속자" style="color: #535f6e;font-weight:bold;font-family: Apple SD Gothic NEO;">
+					</w2:textbox>
+					<xf:image class="fl mr5 ml15" id="image213" src="/prjtm2/images/icon_main_clock.png" style="float:left;" />
+					<w2:textbox class="fl mr5" id="tbx_time" label="" style="color: #535f6e;font-family: Apple SD Gothic NEO;" />
+				</xf:group>
+			</xf:group>
+		</xf:group>
+	</body>
+</html>

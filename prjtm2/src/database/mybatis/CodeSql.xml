@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="code">
+
+	<select id="code.getCodeGrpList" resultType="HashMap">	
+		SELECT GRP_CD, GRP_NM, SORT_ORDER, IS_USE, NOTE, CAST(CREATED_DATE AS VARCHAR(10)) AS CREATED_DATE
+			 , CAST(UPDATED_DATE AS VARCHAR(10)) AS UPDATED_DATE, UPDATED_ID, UPDATED_IP
+		  FROM BM_CODE_GRP
+		<where> 
+			<if test="GRP_CD != null and GRP_CD != ''">
+				 AND GRP_CD = #{GRP_CD}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="code.insertCodeGrp">
+		INSERT INTO BM_CODE_GRP(GRP_CD, GRP_NM, SORT_ORDER, IS_USE, NOTE, CREATED_DATE, UPDATED_DATE, UPDATED_ID, UPDATED_IP)
+		 	 VALUES (#{GRP_CD}, #{GRP_NM}, #{SORT_ORDER}, #{IS_USE}, #{NOTE}, #{CREATED_DATE}, #{UPDATED_DATE}, #{UPDATED_ID}, #{UPDATED_IP})
+	</insert>
+	
+	<update id="code.updateCodeGrp">
+		UPDATE BM_CODE_GRP 
+		   SET GRP_NM = #{GRP_NM}, SORT_ORDER = #{SORT_ORDER}, IS_USE = #{IS_USE}, NOTE = #{NOTE} 
+			 , UPDATED_DATE = #{UPDATED_DATE}, UPDATED_ID = #{UPDATED_ID}, UPDATED_IP = #{UPDATED_IP} 
+		 WHERE GRP_CD = #{GRP_CD}	 
+	</update>
+	
+	<delete id="code.deleteCodeGrp">
+		DELETE FROM BM_CODE_GRP WHERE GRP_CD = #{GRP_CD}
+	</delete>
+	
+	<select id="code.getCodeList" resultType="HashMap">	
+		SELECT GRP_CD, COM_CD, CODE_NM, SORT_ORDER, IS_USE, ATTR_VALUE1, ATTR_VALUE2, ATTR_VALUE3, NOTE
+			 , CAST(CREATED_DATE AS VARCHAR(10)) AS CREATED_DATE
+			 , CAST(UPDATED_DATE AS VARCHAR(10)) AS UPDATED_DATE, UPDATED_ID, UPDATED_IP
+		  FROM BM_CODE
+		<where> 
+			<if test="GRP_CD != null and GRP_CD != ''">
+				 AND GRP_CD = #{GRP_CD}
+			</if>
+			<if test="COM_CD != null and COM_CD != ''">
+				 AND COM_CD = #{COM_CD}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="code.insertCode">
+		INSERT INTO BM_CODE(GRP_CD, COM_CD, CODE_NM, SORT_ORDER, IS_USE, ATTR_VALUE1, ATTR_VALUE2, ATTR_VALUE3, NOTE
+						  , CREATED_DATE, UPDATED_DATE, UPDATED_ID, UPDATED_IP)
+		 	 VALUES (#{GRP_CD}, #{COM_CD}, #{CODE_NM}, #{SORT_ORDER}, #{IS_USE}, #{ATTR_VALUE1}, #{ATTR_VALUE2}, #{ATTR_VALUE3}, #{NOTE}
+		 	 	  , #{CREATED_DATE}, #{UPDATED_DATE}, #{UPDATED_ID}, #{UPDATED_IP})
+	</insert>
+	
+	<update id="code.updateCode">
+		UPDATE BM_CODE 
+		   SET CODE_NM = #{CODE_NM}, SORT_ORDER = #{SORT_ORDER}, IS_USE = #{IS_USE}, ATTR_VALUE1 = #{ATTR_VALUE1}
+		     , ATTR_VALUE2 = #{ATTR_VALUE2}, ATTR_VALUE3 = #{ATTR_VALUE3}, NOTE = #{NOTE}
+			 , UPDATED_DATE = #{UPDATED_DATE}, UPDATED_ID = #{UPDATED_ID}, UPDATED_IP = #{UPDATED_IP} 
+		 WHERE GRP_CD = #{GRP_CD}
+		   AND COM_CD = #{COM_CD}
+	</update>
+	
+	<delete id="code.deleteCode">
+		DELETE FROM BM_CODE WHERE GRP_CD = #{GRP_CD} AND COM_CD = #{COM_CD}
+	</delete>
+	
+	<select id="code.getZipCodeList" resultType="HashMap">	
+		SELECT ZIP_CD, CITY || ' ' || COUNTRY || ' ' || TOWN || ' ' || BUILDING || ' ' || FROM_NO AS ADDRESS
+          FROM BM_ZIP_CODE
+		<where> 
+			<if test="SEARCH_KEYWORD != null and SEARCH_KEYWORD != ''">
+				 AND ((TOWN LIKE '%' || #{SEARCH_KEYWORD} || '%') OR (BUILDING LIKE '%' || #{SEARCH_KEYWORD} || '%'))
+			</if>
+		</where>
+	</select>
+</mapper>

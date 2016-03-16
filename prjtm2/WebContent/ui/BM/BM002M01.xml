@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/prjtm2/cm/css/common.css"" type="text/css"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection>
+				<w2:dataList id="dlt_Authority" baseNode="list" style="" repeatNode="map" ev:onbeforerowpositionchange="scwin.dlt_Authority_onbeforerowpositionchange">
+					<w2:columnInfo>
+						<w2:column id="CHK" name="선택" dataType="text" ignoreStatus="true"></w2:column>
+						<w2:column id="AUTHORITY_CD" name="권한코드" dataType="text"></w2:column>
+						<w2:column id="AUTHORITY_NM" name="권한명" dataType="text"></w2:column>
+						<w2:column id="IS_USE" name="사용여부" dataType="text"></w2:column>
+						<w2:column id="NOTE" name="비고" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+				<w2:dataList id="dlt_PersonAuthority" baseNode="list" style="" repeatNode="map">
+					<w2:columnInfo>
+						<w2:column id="CHK" name="선택" dataType="text" ignoreStatus="true"></w2:column>
+						<w2:column id="AUTHORITY_CD" name="권한코드" dataType="text"></w2:column>
+						<w2:column id="EMP_CD" name="사원코드" dataType="text"></w2:column>
+						<w2:column id="EMP_NM" name="사원명" dataType="text"></w2:column>
+						<w2:column id="ORG_NM" name="조직" dataType="text"></w2:column>
+						<w2:column id="ASSIGNED_TASK" name="담당업무" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+			</w2:dataCollection>
+		</xf:model>
+		<script type="javascript"><![CDATA[ 
+
+		/**
+		 * 화면 초기화에 필요한 로직을 수행한다.
+		 */
+		scwin.initScreen = function() {
+			scwin.searchAuthority();
+		};
+		
+		/**
+		 * 권한을 조회한다.
+		 */
+		scwin.searchAuthority = function() {
+			var option = {id : "sbm_GetAuthorityList"
+						, action : "authority/getAuthorityList"
+						, target : "data:json, {'id':'dlt_Authority', 'key':'data'}"
+						, submitDoneHandler : "searchAuthorityCallback" };
+			ajaxLib.executeSubmission(option);
+		};
+		
+		/**
+		 * 권한 조회후 콜백 로직을 수행한다.
+		 */
+		scwin.searchAuthorityCallback = function(resBody) {
+			if (dlt_Authority.getRowCount() > 0) {
+				grd_Authority.setFocusedCell(0, "AUTHORITY_CD");
+			}
+		};
+
+		/**
+		 * 권한을 추가한다.
+		 */
+		scwin.btn_InsertAuthority_onclick = function() {
+			var insertedIndex = dlt_Authority.insertRow();
+			grd_Authority.setFocusedCell(insertedIndex, 0);
+			ibx_AuthorityCd.setReadOnly(false);
+			ibx_AuthorityCd.focus();
+		};
+		
+		/**
+		 * 권한을 삭제한다.
+		 */
+		scwin.btn_RemoveAuthority_onclick = function() {
+			comLib.removeGridView(grd_Authority);
+		};
+		
+		/**
+		 * 업데이트(등록, 수정, 삭제)된 권한을 데이터베이스에 저장한다.
+		 */
+		scwin.btn_SaveAuthority_onclick = function() {
+			if (valLib.validateGroup(grp_AuthorityDetail, dlt_Authority)) {
+				comLib.confirm("변경된 권한 정보를 저장하시겠습니까?", "saveAuthorityConfirmCallback");
+			}
+		};
+		
+		scwin.saveAuthorityConfirmCallback = function() {
+			var option = {id : "sbm_SaveAuthorityList"
+						, action : "authority/saveAuthorityList"
+						, ref : "data:json, {'id':'dlt_Authority', 'action':'modified', 'key':'data'}"
+						, submitDoneHandler : "saveAuthorityCallback"
+						, isShowMeg : true };
+			ajaxLib.executeSubmission(option);
+		};
+
+		/**
+		 * 권한을 업데이트한 후에 필요한 콜백 로직을 수행한다.
+		 */
+		scwin.saveAuthorityCallback = function(resBody) {
+			comLib.alert(resBody.result.message);
+			ibx_AuthorityCd.setReadOnly(true);
+			scwin.searchAuthority();
+		};
+		
+		/**
+		 * 업데이트된 권한을 업데이트 전 상태로 되돌린다.
+		 */
+		scwin.btn_CancelAuthority_onclick = function() {
+			comLib.confirm("권한 정보를 변경 전 상태로 복원하시겠습니까?", "cancelAuthorityConfirmCallbak");
+		};
+		
+		scwin.cancelAuthorityConfirmCallbak = function() {
+			comLib.rollbackGridView(grd_Authority, 0, "AUTHORITY_CD");
+			ibx_AuthorityCd.setReadOnly(true);
+		};
+		
+		/**
+		 * 권한 데이터를 엑셀 파일로 다운로드 받는다.
+		 */
+		scwin.btn_ExcelAuthority_onclick = function() {
+			comLib.downloadExcel(grd_Authority, {fileName : "Authority_Data.xlsx"}, []);
+		};
+		
+		/**
+		 * 권한 데이터의 Row Index가 변경 시에 입력된 데이터에 대한 유효성 검사를 진행한다.
+		 */
+		scwin.dlt_Authority_onbeforerowpositionchange = function(info) {
+			if (dlt_Authority.getModifiedIndex().length > 0) {
+				return valLib.validateGroup(grp_AuthorityDetail);
+			}
+		};
+
+		/**
+		 * 권한별 등록 사원을 조회한다.
+		 */
+		scwin.grd_Authority_onrowindexchange = function(row,oldRow) {
+			var authorityCd = dlt_Authority.getCellData(row, "AUTHORITY_CD");
+			if (authorityCd !== "") {
+				var option = { id : "sbm_GetPersonAuthorityList"
+							 , action : "authority/getPersonAuthorityList"
+							 , target : "data:json, {'id':'dlt_PersonAuthority', 'key':'data'}" };	
+				var reqData = {"param" : {"AUTHORITY_CD" : authorityCd}};
+				ajaxLib.executeSubmission(option, reqData);
+			} else {
+				dlt_PersonAuthority.removeAll();
+			}
+		};
+		
+		/**
+		 * 권한별 등록 사원을 추가한다.
+		 */
+		scwin.btn_InsertPersonAuthority_onclick = function() {
+			var options = {
+				title : "권한별 등록 사원 선택", width : 600, height : 460, 
+				popupParam : { closeCallbackFncName : "insertPersonAuthorityCallback" }
+			};
+			comLib.openPopup("search_person", "/ui/BM/BM002P01.xml", options);
+		};
+		
+		/**
+		 * 권한별 등록 사원을 추가후 콜백 로직을 수행한다.
+		 */
+		scwin.insertPersonAuthorityCallback = function(rtnStr) {
+			var jsonData = jsonLib.parse(rtnStr);
+			var authorityCd = dlt_Authority.getCellData(grd_Authority.getFocusedRowIndex(), "AUTHORITY_CD");
+			var rowCount = dlt_PersonAuthority.getRowCount();
+			
+			for (var i = 0; i < jsonData.length; i++) {
+				jsonData[i].AUTHORITY_CD = authorityCd;
+			}
+			
+			for (var k = 0; k < jsonData.length; ) {
+				var rowIndex = dlt_PersonAuthority.getMatchedIndex("EMP_CD", jsonData[k].EMP_CD, true, 0, rowCount);
+				if (rowIndex.length > 0) {
+					jsonData.splice(k, 1);
+				} else {
+					k++;
+				}
+			}
+			
+			dlt_PersonAuthority.insertJSON(rowCount, jsonData);
+		};
+		
+		/**
+		 * 권한별 등록 사원을 삭제한다.
+		 */
+		scwin.btn_RemovePersonAuthority_onclick = function() {
+			comLib.removeGridView(grd_PersonAuthority);
+		};
+		
+		/**
+		 * 업데이트(등록, 수정, 삭제)된 권한별 등록 사원을 데이터베이스에 저장한다.
+		 */
+		scwin.btn_SavePersonAuthority_onclick = function() {
+			var valInfo = [ {id : "EMP_CD",  mandatory : true, minlength : 6, isHangul : false} ];
+			if (valLib.validateGridView(grd_PersonAuthority, valInfo)) {
+				comLib.confirm("변경된 권한별 등록 사원 정보를 저장하시겠습니까?", "savePersonAuthorityConfirmCallbak");
+			}
+		};
+		
+		scwin.savePersonAuthorityConfirmCallbak = function() {
+			var option = { id : "sbm_SavePersonAuthorityList"
+						, action : "authority/savePersonAuthorityList"
+						, ref : "data:json, {'id':'dlt_PersonAuthority', 'action':'modified', 'key':'data'}"
+						, submitDoneHandler : "savePersonAuthorityCallback" };
+			ajaxLib.executeSubmission(option);
+		};
+		
+		/**
+		 * 권한별 등록 사원을 업데이트한 후에 필요한 콜백 로직을 수행한다.
+		 */
+		scwin.savePersonAuthorityCallback = function(resBody) {
+			comLib.alert(resBody.result.message);
+			scwin.grd_Authority_onrowindexchange(grd_Authority.getFocusedRowIndex());
+		};
+		
+		/**
+		 * 업데이트된 권한별 등록 사원을 업데이트 전 상태로 되돌린다.
+		 */
+		scwin.btn_CancelPersonAuthority_onclick = function() {
+			comLib.confirm("권한별 등록 사원 정보를 변경 전 상태로 복원하시겠습니까?", "cancelPersonAuthorityConfirmCallback");
+		};
+		
+		scwin.cancelPersonAuthorityConfirmCallback = function() {
+			comLib.rollbackGridView(grd_PersonAuthority, 0, 0);
+			grd_PersonAuthority.setHeaderValue("chkHeader", "0");
+		};
+
+		/**
+		 * 권한별 등록사원 데이터를 엑셀 파일로 다운로드 받는다.
+		 */
+		scwin.btn_ExcelPersonAuthority_onclick = function(){
+			comLib.downloadExcel(grd_PersonAuthority, {fileName : "PersonAuthority_Data.xlsx"}, []);
+		};
+
+		]]></script>
+	</head>
+	<body>
+		<w2:pageInherit id="comPage" src="/prjtm2/cm/common/content_common.xml" style=""></w2:pageInherit>
+		<xf:group id="content_gp" style="" class="">
+			<w2:wframe id="wframe1" src="/prjtm2/cm/common/content_header.xml"></w2:wframe>
+			<xf:group class="mt5 clearfix" id="grp_AuthorityHeader" style="">
+				<w2:textbox id="tbx_TitleAuthority" label="권한" style="float:left;" tagname="h2"></w2:textbox>
+				<xf:group id="group13" style="" class="fr mt3">
+					<w2:anchor id="btn_InsertAuthority" style="" ev:onclick="scwin.btn_InsertAuthority_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[등록]]></xf:label>
+					</w2:anchor>
+					<w2:anchor id="btn_RemoveAuthority" style="" ev:onclick="scwin.btn_RemoveAuthority_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[삭제]]></xf:label>
+					</w2:anchor>
+					<w2:anchor id="btn_SaveAuthority" style="" ev:onclick="scwin.btn_SaveAuthority_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[저장]]></xf:label>
+					</w2:anchor>
+					<w2:anchor id="btn_CancelAuthority" style="" ev:onclick="scwin.btn_CancelAuthority_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[취소]]></xf:label>
+					</w2:anchor>
+					<w2:anchor id="btn_ExcelAuthority" style="" ev:onclick="scwin.btn_ExcelAuthority_onclick" class="btn_com" outerDiv="">
+						<xf:label><![CDATA[엑셀]]></xf:label>
+					</w2:anchor>
+				</xf:group>
+			</xf:group>
+			<xf:group id="group12" style="">
+				<xf:group id="group9" style="width: 50%;float:left;" class="">
+					<w2:gridView id="grd_Authority" dataList="dlt_Authority" autoFit="allColumn" style="height: 580px;margin-right:10px;" useShiftKey="false"
+						scrollByColumn="false" class="grdView" fixedColumnWithHidden="true" visibleRowNum="30" readOnly="true" rowStatusVisible="true" rowStatusHeaderValue="상태"
+						focusMode="row" keepDefaultColumnWidth="true" rowStatusWidth="40" ev:onrowindexchange="scwin.grd_Authority_onrowindexchange">
+						<w2:header id="header1" style="">
+							<w2:row id="row1" style="">
+								<w2:column blockSelect="false" id="chkHeader" style="height:20px" inputType="checkbox" width="41" value="CHK"></w2:column>
+								<w2:column id="column7" blockSelect="false" style="height:20px" width="85" inputType="text" value="권한코드"></w2:column>
+								<w2:column id="column5" blockSelect="false" style="height:20px" width="300" inputType="text" value="권한명"></w2:column>
+								<w2:column id="column3" blockSelect="false" style="height:20px" width="88" inputType="text" value="사용여부"></w2:column>
+							</w2:row>
+						</w2:header>
+						<w2:gBody id="gBody1" style="">
+							<w2:row id="row2" style="">
+								<w2:column blockSelect="false" id="CHK" style="height:20px" inputType="checkbox" width="40" readOnly="false" trueValue="1" falseValue="0"></w2:column>
+								<w2:column id="AUTHORITY_CD" blockSelect="false" style="height:20px" width="85" inputType="text"></w2:column>
+								<w2:column id="AUTHORITY_NM" blockSelect="false" style="height:20px" width="300" inputType="text" textAlign="left"></w2:column>
+								<w2:column id="IS_USE" blockSelect="false" style="height:20px" width="88" inputType="checkbox" falseValue="N" trueValue="Y" localeRef=""
+									valueType="other"></w2:column>
+							</w2:row>
+						</w2:gBody>
+					</w2:gridView>
+				</xf:group>
+				<xf:group id="group10" style="width: 50%;float:left;" class="">
+					<xf:group id="grp_AuthorityDetail" style="height:119px;">
+						<table id="table1" summary="" style="width:100.00%;height: 0;" class="w2tb">
+							<xf:group tagname="colgroup">
+								<xf:group style="width:25.55%;" tagname="col"></xf:group>
+								<xf:group style="width:74.45%;" tagname="col"></xf:group>
+							</xf:group>
+							<xf:group tagname="tr">
+								<xf:group style="text-align:left;" class="w2tb_th" tagname="th">권한코드</xf:group>
+								<xf:group style="" class="w2tb_td" tagname="td">
+									<xf:input id="ibx_AuthorityCd" ref="data:dlt_Authority.AUTHORITY_CD" style="width: 144px;height: 21px;" mandatory="true" maxlength="5"
+										minlength="5" isHangul="false"></xf:input>
+								</xf:group>
+							</xf:group>
+							<xf:group tagname="tr">
+								<xf:group style="text-align:left;" class="w2tb_th" tagname="th">권한명</xf:group>
+								<xf:group style="" class="w2tb_td" tagname="td">
+									<xf:input id="ibx_AuthorityNm" ref="data:dlt_Authority.AUTHORITY_NM" style="width: 98%;height: 21px;" mandatory="true" maxlength="100"></xf:input>
+								</xf:group>
+							</xf:group>
+							<xf:group tagname="tr">
+								<xf:group style="text-align:left;" class="w2tb_th" tagname="th">사용여부</xf:group>
+								<xf:group style="" class="w2tb_td" tagname="td">
+									<xf:select1 id="rad_Isuse" ref="data:dlt_Authority.IS_USE" cols="2" selectedIndex="0" appearance="full" style="width: 150px;height: 21px;"
+										rows="">
+										<xf:choices>
+											<xf:item>
+												<xf:label><![CDATA[예]]></xf:label>
+												<xf:value><![CDATA[Y]]></xf:value>
+											</xf:item>
+											<xf:item>
+												<xf:label><![CDATA[아니오]]></xf:label>
+												<xf:value><![CDATA[N]]></xf:value>
+											</xf:item>
+										</xf:choices>
+									</xf:select1>
+								</xf:group>
+							</xf:group>
+							<xf:group tagname="tr">
+								<xf:group style="text-align:left;" class="w2tb_th" tagname="th">비고</xf:group>
+								<xf:group style="" class="w2tb_td" tagname="td">
+									<xf:input id="ibx_Note" ref="data:dlt_Authority.NOTE" style="width: 98%;height: 21px;"></xf:input>
+								</xf:group>
+							</xf:group>
+						</table>
+					</xf:group>
+					<xf:group id="grp_PersonAuthorityHeader" style="" class="mt10 clearfix">
+						<w2:textbox id="tbx_TitlePersonAuthority" style="float:left;" label="권한별 등록 사원" tagname="h2"></w2:textbox>
+						<xf:group id="group14" style="" class="fr mt3">
+							<w2:anchor id="btn_InsertPersonAuthority" style="" ev:onclick="scwin.btn_InsertPersonAuthority_onclick" class="btn_com" outerDiv="">
+								<xf:label><![CDATA[등록]]></xf:label>
+							</w2:anchor>
+							<w2:anchor id="btn_RemovePersonAuthority" style="" ev:onclick="scwin.btn_RemovePersonAuthority_onclick" class="btn_com" outerDiv="">
+								<xf:label><![CDATA[삭제]]></xf:label>
+							</w2:anchor>
+							<w2:anchor id="btn_SavePersonAuthority" style="" ev:onclick="scwin.btn_SavePersonAuthority_onclick" class="btn_com" outerDiv="">
+								<xf:label><![CDATA[저장]]></xf:label>
+							</w2:anchor>
+							<w2:anchor id="btn_CancelPersonAuthority" style="" ev:onclick="scwin.btn_CancelPersonAuthority_onclick" class="btn_com" outerDiv="">
+								<xf:label><![CDATA[취소]]></xf:label>
+							</w2:anchor>
+							<w2:anchor id="btn_ExcelPersonAuthority" style="" ev:onclick="scwin.btn_ExcelPersonAuthority_onclick" class="btn_com" outerDiv="">
+								<xf:label><![CDATA[엑셀]]></xf:label>
+							</w2:anchor>
+						</xf:group>
+					</xf:group>
+					<w2:gridView id="grd_PersonAuthority" dataList="dlt_PersonAuthority" autoFit="allColumn" style="height: 422px;" visibleRowNum="" useShiftKey="false"
+						scrollByColumn="false" class="grdView" fixedColumnWithHidden="true" rowStatusVisible="true" rowStatusHeaderValue="상태" readOnly="true" focusMode="both">
+						<w2:header id="header3" style="">
+							<w2:row id="row5" style="">
+								<w2:column blockSelect="false" id="chkHeader" style="height:20px" inputType="checkbox" width="41" value="CHK"></w2:column>
+								<w2:column blockSelect="false" id="column18" style="height:20px" inputType="text" width="78" value="사원코드"></w2:column>
+								<w2:column blockSelect="false" id="column16" style="height:20px" inputType="text" width="83" value="사원명"></w2:column>
+								<w2:column blockSelect="false" id="column14" style="height:20px" inputType="text" width="120" value="조직"></w2:column>
+								<w2:column blockSelect="false" id="column12" style="height:20px" width="184" inputType="text" value="담당업무"></w2:column>
+							</w2:row>
+						</w2:header>
+						<w2:gBody id="gBody3" style="">
+							<w2:row id="row6" style="">
+								<w2:column blockSelect="false" id="CHK" style="height:20px" inputType="checkbox" width="40" trueValue="1" falseValue="0" readOnly="false"></w2:column>
+								<w2:column blockSelect="false" id="EMP_CD" style="height:20px" inputType="text" width="78"></w2:column>
+								<w2:column blockSelect="false" id="EMP_NM" style="height:20px" inputType="text" width="83"></w2:column>
+								<w2:column blockSelect="false" id="ORG_NM" style="height:20px" inputType="text" width="120" textAlign="left"></w2:column>
+								<w2:column blockSelect="false" id="ASSIGNED_TASK" style="height:20px" width="184" inputType="text" textAlign="left"></w2:column>
+							</w2:row>
+						</w2:gBody>
+					</w2:gridView>
+				</xf:group>
+			</xf:group>
+		</xf:group>
+	</body>
+</html>

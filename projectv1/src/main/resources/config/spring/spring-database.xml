@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/jdbc  http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
+     
+    <bean id="dataSourceSpied" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://projectv1.crogla7sd7vf.us-east-1.rds.amazonaws.com:3306/project"/>
+        <property name="username" value="wing2409"/>
+        <property name="password" value="11111111"/>
+    </bean>
+    
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="mapperLocations" value="classpath*:query/**" />
+ 	</bean>
+ 	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+	 <constructor-arg ref="dataSourceSpied" />
+	 <property name="logFormatter">
+	  <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+	   <property name="loggingType" value="MULTI_LINE" />
+	   <property name="sqlPrefix" value="SQL:::" />
+	  </bean>
+	 </property>
+	</bean>
+    
+</beans>

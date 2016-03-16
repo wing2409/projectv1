@@ -22,6 +22,7 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.project.v1" />
+	<context:component-scan base-package="project.*" />
 	
 	
 	
